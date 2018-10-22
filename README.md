@@ -6,7 +6,9 @@ utility with Docker technology.
 The project will set up a new Einstein system built with docker containers
 while still using the original automated correction script.
 
-Improvements:
+---
+
+### Improvements
 
 - Performance
    - Increase performance under heavy usage from hundreds of students simultaneously.
@@ -18,9 +20,9 @@ Improvements:
    - Create a new more intuitive UI for use in DCU and externally.
    - System should be simple to navigate for all students.
 
-### Features
-
 ---
+
+### Features
 
 - Docker environment
   - Current correction script will run inside docker container per student request in new environment.

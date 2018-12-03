@@ -1,13 +1,16 @@
-# Blog: MY-PROJECT-TITLE
+# Blog: Docker Einstein
 
-**MY-NAME**
+**Ben Coleman**
 
 ## My First Blog Entry
 
-This is my first blog entry.
+To start development, I created a basic NodeJS web application locally. This is what I plan to build
+upon in the coming weeks and deploy as part of the Docker image. This is the start of a proposed thin
+system that should implement basic functionality before expansion. 
 
-The blog is written in [markdown](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet).
-Markdown is a simple text-based mark-up language.
+I also added a copy of the original marker script for easy access. This may be implemented into
+the web application in the coming weeks, and more than likely rewritten to suit the new system.
+
 
 ## My Second Blog Entry
 

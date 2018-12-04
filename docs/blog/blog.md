@@ -2,7 +2,7 @@
 
 **Ben Coleman**
 
-## My First Blog Entry
+## Blog Entry: 03/12/2018
 
 To start development, I created a basic NodeJS web application locally. This is what I plan to build
 upon in the coming weeks and deploy as part of the Docker image. This is the start of a proposed thin
@@ -11,8 +11,14 @@ system that should implement basic functionality before expansion.
 I also added a copy of the original marker script for easy access. This may be implemented into
 the web application in the coming weeks, and more than likely rewritten to suit the new system.
 
+## Blog Entry: 04/12/2018
 
-## My Second Blog Entry
+The NodeJS web application now runs and builds with Docker and Docker Compose. Docker Compose is a container
+orchestration tool used for managing containers and controlling failsafe deployments. There is now a dockerfile
+that creates a docker image, and a docker-compose file for building. I can now begin to build the Einstein upload 
+functionality on top of this system.
+
+---
 
 This week, I learned how to include
 [images](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet#images)

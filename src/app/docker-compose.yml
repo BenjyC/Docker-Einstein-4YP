@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+
+  app:
+    build: .
+    volumes:
+      - ./app:/src/app
+    ports:
+      - "3000:3000"
+    restart: always

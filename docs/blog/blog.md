@@ -18,6 +18,14 @@ orchestration tool used for managing containers and controlling failsafe deploym
 that creates a docker image, and a docker-compose file for building. I can now begin to build the Einstein upload 
 functionality on top of this system.
 
+## Blog Entry: 17/12/2018
+
+Before this commit I had done research and consulted my supervisor on the file upload aspect of Einstein. 
+It was decided that the best approach was to use a node module, <i> Formidable </i> to handle file uploads 
+on the backend. I done some experimenting between this and the express middleware alternative, <i> express-formidable </i> 
+and settled on using the base formidable module with a HTTP form that takes the file uploaded by the user. Formidable then parses 
+the file. The application is now ready to be implemented with a marker script that a uploaded file may be passed to. 
+
 ---
 
 This week, I learned how to include

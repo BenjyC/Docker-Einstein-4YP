@@ -8,22 +8,35 @@ router.get('/', function(req, res, next) {
 });
 
 // Handle uploaded file
-router.post('/', function(req,res) {
+router.post('/', (req,res) => {
 	
-	var form = new formidable.IncomingForm();
-	form.uploadDir = "./uploads";
-	form.keepExtensions = true;
-	form.parse(req);
+	new formidable.IncomingForm().parse(req, (err, fields, files) => {
 
-	form.on('fileBegin', function (name,file){
-		file.path = __dirname + '/uploads/' + file.name;
-	});
+		if (err) {
+	      console.error('Error', err)
+	      throw err
+	    }
+	    console.log('Fields', fields)
+	    console.log('Files', files)
+	    files.map(file => {
+	      console.log(file)
+	    })
 
-	form.on('file', function (name,file){
-		console.log('Uploaded ' + file.name);
-	});
+	/*	.on('fileBegin', (name, file) => {
+			form.on('fileBegin', (name, file) => {
+				file.path = __dirname + '/uploads' + file.name;
+			})
+		})
 
-	return res.render('feedback', { title: 'Upload feedback page' });
-});
+		.on('file', (name, file) => {
+			console.log('Uploaded file', name, file);
+		})
+
+		.on('error', (err) => {
+			console.error('Error', err);
+			throw err;
+		})*/
+	})
+})
 
 module.exports = router;

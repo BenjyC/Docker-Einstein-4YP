@@ -9,10 +9,9 @@ var usersRouter = require('./routes/users');
 var feedbackRouter = require('./routes/feedback');
 
 var app = express();
+var formidable = require('formidable');
 
 var http = require('http');
-//var formidableMiddleware = require('express-formidable');
-
 
 // View engine setup
 app.set('views', path.join(__dirname, 'views'));

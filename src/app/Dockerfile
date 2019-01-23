@@ -4,7 +4,7 @@ RUN mkdir -p /src
 RUN npm install express-generator -g
 
 WORKDIR /src
-ADD app/package.json /src/package.json
+COPY ./app /src
 RUN npm install
 
 EXPOSE 3000

@@ -1,6 +1,7 @@
 # Add files names (and patterns) you want git to ignore here.
 src/app/node_modules
 src/app/app/node_modules
+src/app/app/uploads/*
 
 # Ignore java .class files.
 *.class

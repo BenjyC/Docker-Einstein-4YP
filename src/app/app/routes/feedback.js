@@ -1,6 +1,8 @@
 var express = require('express');
 var formidable = require('formidable');
+var path = require('path');
 var router = express.Router();
+var upFile = {};
 
 /* GET feedback page. */
 router.get('/', function(req, res, next) {
@@ -8,35 +10,25 @@ router.get('/', function(req, res, next) {
 });
 
 // Handle uploaded file
-router.post('/', (req,res) => {
+router.post('/', function (req, res) {
 	
-	new formidable.IncomingForm().parse(req, (err, fields, files) => {
+	var form = new formidable.IncomingForm();
 
-		if (err) {
-	      console.error('Error', err)
-	      throw err
-	    }
-	    console.log('Fields', fields)
-	    console.log('Files', files)
-	    files.map(file => {
-	      console.log(file)
-	    })
+	form.uploadDir = "../uploads/";
+    form.parse(req);
 
-	/*	.on('fileBegin', (name, file) => {
-			form.on('fileBegin', (name, file) => {
-				file.path = __dirname + '/uploads' + file.name;
-			})
-		})
+    form.on('fileBegin', function (name, file){
+    	saveDir = path.join(__dirname, '../uploads/')
+        file.path = saveDir + file.name;
+    });
 
-		.on('file', (name, file) => {
-			console.log('Uploaded file', name, file);
-		})
+    form.on('file', function (name, file){
+    	upFile = file;
+        console.log('Uploaded file', name, file);
+    });
 
-		.on('error', (err) => {
-			console.error('Error', err);
-			throw err;
-		})*/
-	})
+    return res.render('feedback', {title: 'Upload feedback page'});	
+
 })
 
 module.exports = router;

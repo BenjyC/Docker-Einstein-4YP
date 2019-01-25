@@ -4,6 +4,6 @@ block content
   h1= title
   p Welcome to #{title}
 
-  form(action='/', enctype='multipart/form-data', method='POST')
+  form(action='/feedback', enctype='multipart/form-data', method='POST')
     input(type='file', name='upload')
     input(type='submit', value='Upload')

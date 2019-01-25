@@ -3,13 +3,13 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var formidable = require('formidable');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var feedbackRouter = require('./routes/feedback');
 
 var app = express();
-var formidable = require('formidable');
 
 var http = require('http');
 

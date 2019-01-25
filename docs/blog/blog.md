@@ -26,6 +26,14 @@ on the backend. I done some experimenting between this and the express middlewar
 and settled on using the base formidable module with a HTTP form that takes the file uploaded by the user. Formidable then parses 
 the file. The application is now ready to be implemented with a marker script that a uploaded file may be passed to. 
 
+## Blog Entry: 25/01/2019
+
+Had run into an issue with the file upload of the project. I had previously implemented the upload feature but found that
+the file was not actually being saved on the server. I had some time to think on this over Christmas during the exam period, and 
+was able to come back and figure out the issue over the last few days. The encoding type of the HTML form for uploading files
+was causing issues, and was rectified. After removing the feedback redirect to test this issue, I then came back and added this 
+page again now that functionality has been restored. Next I will work on the marker script working alongside this upload system.
+
 ---
 
 This week, I learned how to include

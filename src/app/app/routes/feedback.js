@@ -2,20 +2,32 @@ var express = require('express');
 var formidable = require('formidable');
 var path = require('path');
 var router = express.Router();
-var upFile = {};
+var mw = require('../fileGrab.js');
+
+// Middleware
+router.use(function(req, res, next) {
+	console.log('@@@@@@@@@@@@' + res.locals.name);
+	next();
+});
+
+//HTTP Methods
 
 /* GET feedback page. */
 router.get('/', function(req, res, next) {
   res.render('feedback', { title: 'Upload feedback page' });
+
 });
 
 // Handle uploaded file
-router.post('/', function (req, res) {
+router.post('/', function(req, res, next) {
 	
 	var form = new formidable.IncomingForm();
 
 	form.uploadDir = "../uploads/";
-    form.parse(req);
+    form.parse(req, function(err, fields, files){
+    	if (err) return res.end('Error encountered');
+    	res.locals.name = files.upload.name;
+    });
 
     form.on('fileBegin', function (name, file){
     	saveDir = path.join(__dirname, '../uploads/')
@@ -23,12 +35,11 @@ router.post('/', function (req, res) {
     });
 
     form.on('file', function (name, file){
-    	upFile = file;
-        console.log('Uploaded file', name, file);
+        //console.log('Uploaded file', file);
+        res.locals.name = file.name;
     });
 
-    return res.render('feedback', {title: 'Upload feedback page'});	
-
-})
+    res.render('feedback', {title: 'Upload feedback page'});
+});
 
 module.exports = router;

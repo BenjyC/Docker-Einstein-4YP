@@ -41,6 +41,18 @@ can access and use such file. This should allow me to setup the basic marker scr
 gaining access to this file. Any middleware function I try to pass the file to returns 'undefined' or executes before the file has
 even been uploaded. Many solutions to this have given the same output. I will continue to investigate this issue.
 
+## Blog Entry 006 - 04/02/2019
+
+Alongside the main file upload and processing functionality, I have also been investigating testing that I can implement within my application.
+I decided to use the Mocha test framework with the Chai assertion library to work inside my Express app and allow me to create unit tests as I add 
+further functionality.
+
+Currently, the testing is set up correctly within the package.json and looks for any test case found in the test directory. All tests can be executed 
+together using 'npm test', however automation of this will be configured. The test cases used during initial setup of this framework were simply checks
+that the upload page and feedback page of the application exist. This will be elaborated over the coming weeks into more specific unit tests.
+
+I plan to document any unit tests in the technical manual of this project.
+
 ---
 
 This week, I learned how to include

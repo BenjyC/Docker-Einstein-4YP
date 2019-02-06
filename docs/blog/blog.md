@@ -53,6 +53,11 @@ that the upload page and feedback page of the application exist. This will be el
 
 I plan to document any unit tests in the technical manual of this project.
 
+## Blog Entry 007 - 06/02/2019
+
+Over the last few days I have reverted back to my focus on working with uploaded files and figuring out the best approach to do so. I also revisited the 
+status and content unit tests I had written and edited the "it" block, as all research has indicated the same convention; "human-readable" description. 
+
 ---
 
 This week, I learned how to include

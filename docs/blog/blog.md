@@ -28,7 +28,7 @@ the file. The application is now ready to be implemented with a marker script th
 
 ## Blog Entry 004 - 25/01/2019
 
-Had run into an issue with the file upload of the project. I had previously implemented the upload feature but found that
+I had run into an issue with the file upload of the project. I had previously implemented the upload feature but found that
 the file was not actually being saved on the server. I had some time to think on this over Christmas during the exam period, and 
 was able to come back and figure out the issue over the last few days. The encoding type of the HTML form for uploading files
 was causing issues, and was rectified. After removing the feedback redirect to test this issue, I then came back and added this 
@@ -56,7 +56,15 @@ I plan to document any unit tests in the technical manual of this project.
 ## Blog Entry 007 - 06/02/2019
 
 Over the last few days I have reverted back to my focus on working with uploaded files and figuring out the best approach to do so. I also revisited the 
-status and content unit tests I had written and edited the "it" block, as all research has indicated the same convention; "human-readable" description. 
+status and content unit tests I had written and edited the *"it"* block, as all research has indicated the same convention; *"human-readable"* description. 
+
+![Unit Test](https://gitlab.computing.dcu.ie/colemab5/2019-ca400-colemab5/raw/master/docs/blog/images/UnitTest1.png).
+
+As seen above, the tests are now descriptive: *"checks status"* and *"checks content"*
+
+This image also shows the setup of the test directory within the project, and how the package.json is configured to 
+run all tests with the directory using just *"npm test"*. There is no need to specify particular test names or patterns, unless
+it is required (running only particular test cases).
 
 ---
 

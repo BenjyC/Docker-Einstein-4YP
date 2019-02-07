@@ -26,6 +26,8 @@ on the backend. I done some experimenting between this and the express middlewar
 and settled on using the base formidable module with a HTTP form that takes the file uploaded by the user. Formidable then parses 
 the file. The application is now ready to be implemented with a marker script that a uploaded file may be passed to. 
 
+![Upload Page](https://gitlab.computing.dcu.ie/colemab5/2019-ca400-colemab5/raw/master/docs/blog/images/UploadScreen1.png)
+
 ## Blog Entry 004 - 25/01/2019
 
 I had run into an issue with the file upload of the project. I had previously implemented the upload feature but found that

@@ -68,6 +68,18 @@ This image also shows the setup of the test directory within the project, and ho
 run all tests with the directory using just *"npm test"*. There is no need to specify particular test names or patterns, unless
 it is required (running only particular test cases).
 
+## Blog Entry 008 - 08/02/2019
+
+After meeting with my superviser to discuss what happens with the uploaded files and how they are handled outside of the post request, I added a new marker 
+file that can be called from within the post request. This is where the logic for running the upload against some given stdin/stdout will be held. 
+
+I also added an upload timeout function, which checks if a file exists within the uploads directory and only shows the resulting feedback page when it is true. This functionality
+is what the upload marking process currently uses in Einstein. When a file is being marked, there may be several test cases or some prolonged runtime required. A user
+should not be shown the feedback page until this process is complete and there is feedback to be given. While the function currently checks if a file exists, it will 
+later check if the file has been marked as well.
+
+
+
 ---
 
 This week, I learned how to include

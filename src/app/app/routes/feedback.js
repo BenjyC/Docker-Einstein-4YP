@@ -1,20 +1,16 @@
 var express = require('express');
 var formidable = require('formidable');
 var path = require('path');
+var fs = require('fs');
 var router = express.Router();
-var mw = require('../fileGrab.js');
-
-// Middleware
-router.use(function(req, res, next) {
-	console.log('@@@@@@@@@@@@' + res.locals.name);
-	next();
-});
+var fm = require('../fileMarker.js');
 
 //HTTP Methods
 
 /* GET feedback page. */
 router.get('/', function(req, res, next) {
-  res.render('feedback', { title: 'Upload feedback page' });
+  res.render('feedback', { title: 'No file provided' });
+  //redirect to no file provided*
 
 });
 
@@ -26,7 +22,6 @@ router.post('/', function(req, res, next) {
 	form.uploadDir = "../uploads/";
     form.parse(req, function(err, fields, files){
     	if (err) return res.end('Error encountered');
-    	res.locals.name = files.upload.name;
     });
 
     form.on('fileBegin', function (name, file){
@@ -36,10 +31,25 @@ router.post('/', function(req, res, next) {
 
     form.on('file', function (name, file){
         //console.log('Uploaded file', file);
-        res.locals.name = file.name;
+        var fileName = fm.outputFile(file);
+
+        console.log(fileName);
+        var uploadTimeout = setInterval(fileExists, 200);
+
+        //Check if file has been uploaded
+        function fileExists() {
+            var filePath = path.join(__dirname, '../uploads/')
+
+            //If file is uploaded, render feedback page and clear timeout
+            if (fs.existsSync(filePath + fileName)) {
+                res.render('feedback', { title: 'Upload feedback page', file: fileName });
+                clearInterval(uploadTimeout);
+
+            }
+        }      
     });
 
-    res.render('feedback', {title: 'Upload feedback page'});
+//   res.render('feedback', { title: 'Upload feedback page', file: JSON.stringify(filename) });
 });
 
 module.exports = router;

@@ -31,9 +31,10 @@ router.post('/', function(req, res, next) {
 
     form.on('file', function (name, file){
         //console.log('Uploaded file', file);
-        var fileName = fm.outputFile(file);
+        fm.runFile(file);
 
-        console.log(fileName);
+        var fileName = file.name;
+
         var uploadTimeout = setInterval(fileExists, 200);
 
         //Check if file has been uploaded
@@ -49,7 +50,6 @@ router.post('/', function(req, res, next) {
         }      
     });
 
-//   res.render('feedback', { title: 'Upload feedback page', file: JSON.stringify(filename) });
 });
 
 module.exports = router;

@@ -78,6 +78,17 @@ is what the upload marking process currently uses in Einstein. When a file is be
 should not be shown the feedback page until this process is complete and there is feedback to be given. While the function currently checks if a file exists, it will 
 later check if the file has been marked as well.
 
+## Blog Entry 009 - 12/02/2019
+
+Recently I have worked on adding some more functionality to the file marker script. I created a marker directory that will hold the markers for each of the files
+to be corrected. This marker directory will contain directories with the same name as an uploaded file to be marked, for example;
+
+hello-world.py will have a marker in markers/hello-world/
+
+The marker file currently takes an uploaded file and determines whether it matches a marker directory. This is a good way of determining whether a file that has 
+been uploaded has a valid name as only the exact name will match the directory. Each file directory within markers will contain a stdout.txt, which is the output
+expected after a script has run. There will also be optionality for a stdin.txt, for the cases where a script may read in some input from a file, and also further 
+test1, test2, test3 etc. directories that will contain addition stdin/stdout if a program requires multiple test cases.
 
 
 ---

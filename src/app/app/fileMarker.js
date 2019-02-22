@@ -1,13 +1,15 @@
 var path = require('path');
 var fs = require('fs');
+//const spawn = require('child_process').spawn;
+const { execFile } = require('child_process');
 
-//var exports = module.exports{};
+//const { exec } = require('child_process');
 
 function outputFile(file){
-	return file.name;
+	console.log(file.path);
 }
 
-function runFile(file){
+function checkForMarker(file){
 
 	//Filename with extension removed - Directory name of file's marker
 	var dirName = file.name.split('.').slice(0,-1).join('.');
@@ -23,11 +25,8 @@ function runFile(file){
 
 	else {
 		console.log('Marker does not exist')
+		//TODO Return incorrect filename page
 	}
-
-
-		//If it does not exist, handle filename errors
-		//Wrong filename format etc
 
 		//Else access marker dir
 		//Run file
@@ -35,7 +34,20 @@ function runFile(file){
 
 }
 
+function executeFile(file){
+
+	const child = execFile('/usr/bin/python', ['hello.py'], (err,stdout,stderr) => {
+		if (err) {
+			throw err;
+		}
+
+		console.log(stdout);
+	});
+
+}
+
 module.exports = {
 	outputFile: outputFile,
-	runFile: runFile
+	checkForMarker: checkForMarker,
+	executeFile: executeFile
 };

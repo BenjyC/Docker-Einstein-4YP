@@ -90,6 +90,17 @@ been uploaded has a valid name as only the exact name will match the directory. 
 expected after a script has run. There will also be optionality for a stdin.txt, for the cases where a script may read in some input from a file, and also further 
 test1, test2, test3 etc. directories that will contain addition stdin/stdout if a program requires multiple test cases.
 
+## Blog Entry 010 - 27/02/2019
+
+I have spent a lot of time investigating issues with spawning a child process of Python inside the JavaScript code to run uploaded files. I was having difficulty 
+due to the specific nature of the project; I had not seen any other occurence of using NodeJS with Express running Python code inside a Docker container. After 
+consultation with my supervisor we realised the Docker side of things was probably the issue. I eventually got Python working inside the container and added an update
+line to ensure my Alpine base image stays current. 
+
+The application now receives an upload, checks if it has a marker directory, and will run the code.
+
+Next I plan to have the output of the uploaded code checked against the contents of it's marker i.e check if it is actually correct.
+I also plan to add functionality for shell scripts to show multiple languages are possible.
 
 ---
 

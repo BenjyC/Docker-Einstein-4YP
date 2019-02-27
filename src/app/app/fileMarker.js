@@ -13,19 +13,21 @@ function checkForMarker(file){
 
 	//Filename with extension removed - Directory name of file's marker
 	var dirName = file.name.split('.').slice(0,-1).join('.');
-	console.log(dirName);
+	console.log('Marker Directory: ' + dirName);
 	
 	//Check for dir matching filename in markers dir
 	var markerPath = path.join(__dirname, '/markers/');
+	var uploadPath = markerPath + file.name;
 
 	if(fs.existsSync(markerPath + dirName)){
-		console.log('Exists');
+		console.log('Marker exists');
+		executeFile(file.name);
 
 	}
 
 	else {
 		console.log('Marker does not exist')
-		//TODO Return incorrect filename page
+		//TODO Return incorrect filename page render
 	}
 
 		//Else access marker dir
@@ -34,9 +36,12 @@ function checkForMarker(file){
 
 }
 
-function executeFile(file){
+function executeFile(filename){
 
-	const child = execFile('/usr/bin/python', ['hello.py'], (err,stdout,stderr) => {
+	//Get path to uploaded file
+	var uploadPath = path.join(__dirname, '/uploads/' + filename);
+
+	const child = execFile('python', [uploadPath], (err,stdout,stderr) => {
 		if (err) {
 			throw err;
 		}

@@ -1,5 +1,5 @@
 #!/usr/bin/python
 import sys
 
-print('Hello')
+print('It worked')
 sys.stdout.flush()

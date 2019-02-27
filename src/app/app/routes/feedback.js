@@ -35,12 +35,10 @@ router.post('/', function(req, res, next) {
 
     //Do stuff with the file
     form.on('file', function (name, file){
-        
+
         fm.checkForMarker(file);
         
         //fm.outputFile(file);
-
-        fm.executeFile(file);
 
         var fileName = file.name;
 

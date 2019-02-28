@@ -102,6 +102,14 @@ The application now receives an upload, checks if it has a marker directory, and
 Next I plan to have the output of the uploaded code checked against the contents of it's marker i.e check if it is actually correct.
 I also plan to add functionality for shell scripts to show multiple languages are possible.
 
+## Blog Entry 011 - 28/02/2019
+
+Today I worked on having the uploaded files actually marked i.e checking their output against the marker output. The uploads are now run and compared with the
+stdout in the respective marker directory. I also removed some unused dependencies from the package.json files. 
+
+I then refactored the code to clean up some deprecated functionality/logging used for testing purposes. I also added the functionality for when a file is incorrect
+or if a file is invalid (file name incorrect etc.)
+
 ---
 
 This week, I learned how to include

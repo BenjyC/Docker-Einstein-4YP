@@ -1,20 +1,15 @@
 var path = require('path');
 var fs = require('fs');
-//const spawn = require('child_process').spawn;
 const { execFile } = require('child_process');
-
-//const { exec } = require('child_process');
 
 function outputFile(file){
 	console.log(file.path);
 }
 
-function checkForMarker(file){
+function checkForMarker(file, callback){
 
 	//Filename with extension removed - Directory name of file's marker
 	var dirName = file.name.split('.').slice(0,-1).join('.');
-
-	console.log('Marker directory to be checked: ' + dirName);
 	
 	//Check for dir matching filename in markers dir
 	var markersPath = path.join(__dirname, '/markers/');
@@ -27,7 +22,6 @@ function checkForMarker(file){
 
 	//Check if marker exists before continuing
 	if(fs.existsSync(markerDir)){
-		//console.log('Marker exists');
 
 		//Grab marker stdout.txt
 		var markerOut = fs.readFileSync(sampleOutput, function(err){
@@ -39,26 +33,24 @@ function checkForMarker(file){
 		//Run the file and grab the output
 		executeFile(file.name, function(fileOut) {
 
-			console.log('FILE OUTPUT ' + fileOut);
-			console.log('MARKER OUTPUT ' + markerOut);
+			///console.log('FILE OUTPUT ' + fileOut);
+			//console.log('MARKER OUTPUT ' + markerOut);
 	
 			//Compare output with sample stdout
 			if (markerOut == fileOut){
-				console.log('Correct');
+				callback('correct');
 			}
 
 			else {
-				console.log('Incorrect');
+				callback('incorrect');
 			}
 		});
 	}
 
 	else {
-		console.log('Marker does not exist')
-		//TODO Return incorrect filename page render
+		callback('invalid');
 	}
-	
-}
+};
 
 function executeFile(filename, callback){
 

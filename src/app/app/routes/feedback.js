@@ -5,7 +5,6 @@ var fs = require('fs');
 var router = express.Router();
 var fm = require('../fileMarker.js');
 
-
 //HTTP Methods
 
 /* GET feedback page. */
@@ -36,10 +35,6 @@ router.post('/', function(req, res, next) {
     //Do stuff with the file
     form.on('file', function (name, file){
 
-        fm.checkForMarker(file);
-
-        //fm.outputFile(file);
-
         var fileName = file.name;
 
         var uploadTimeout = setInterval(fileExists, 200);
@@ -50,13 +45,27 @@ router.post('/', function(req, res, next) {
 
             //If file is uploaded, render feedback page and clear timeout
             if (fs.existsSync(filePath + fileName)) {
-                res.render('feedback', { title: 'Upload feedback page', file: fileName });
+                
+                //Call file marker code and find out whether correct/incorrect
+                fm.checkForMarker(file, function(status){
+                    if (status == 'correct') {
+                        res.render('feedback', { title: 'Upload feedback page', file: fileName, status: 'Correct'});
+                    }
+
+                    else if (status == 'incorrect') {
+                        res.render('feedback', { title: 'Upload feedback page', file: fileName, status: 'Incorrect'});
+                    }
+
+                    else {
+                        res.render('feedback', { title: 'Upload feedback page', file: fileName, status: 'Invalid upload file name'});
+                    }
+
                 clearInterval(uploadTimeout);
 
+                });
             }
         }      
     });
-
 });
 
 module.exports = router;

@@ -1,6 +1,7 @@
 var path = require('path');
 var fs = require('fs');
 const { execFile } = require('child_process');
+const { exec } = require('child_process');
 
 function outputFile(file){
 	console.log(file.path);
@@ -33,7 +34,7 @@ function checkForMarker(file, callback){
 		//Run the file and grab the output
 		executeFile(file.name, function(fileOut) {
 
-			///console.log('FILE OUTPUT ' + fileOut);
+			//console.log('FILE OUTPUT ' + fileOut);
 			//console.log('MARKER OUTPUT ' + markerOut);
 	
 			//Compare output with sample stdout
@@ -55,7 +56,7 @@ function checkForMarker(file, callback){
 function executeFile(filename, callback){
 
 	//Get path to uploaded file
-	var uploadPath = path.join(__dirname, '/uploads/' + filename);
+	var uploadPath = path.join(__dirname, '/uploads/');
 
 	//Get file extension
 	var fileExt = filename.split('.').pop();
@@ -63,7 +64,10 @@ function executeFile(filename, callback){
 	//If Python file
 	if (fileExt == 'py') {
 
-		const child = execFile('python', [uploadPath], (err,stdout,stderr) => {
+		//Specific path to file
+		var pyUpload = uploadPath + filename;
+
+		const child = execFile('python', [pyUpload], (err,stdout,stderr) => {
 			if (err) {
 				throw err;
 			}
@@ -72,8 +76,20 @@ function executeFile(filename, callback){
 		});
 	}
 
-	//If shell script
-	//if (fileExt == 'sh'){}
+	//If Shell script
+	if (fileExt == 'sh'){
+
+		//Shell execution
+		var shFile = './' + filename;
+
+		const child = exec(shFile, {cwd: uploadPath}, (err,stdout,stderr) => {
+			if (err) {
+				throw err;
+			}
+
+			callback(stdout);
+		});
+	}
 
 }
 

@@ -9,14 +9,14 @@ function outputFile(file){
 
 function checkForMarker(file, callback){
 
-	//Filename with extension removed - Directory name of file's marker
-	var dirName = file.name.split('.').slice(0,-1).join('.');
+/*	//Filename with extension removed
+	var dirName = file.name.split('.').slice(0,-1).join('.');*/
 	
 	//Check for dir matching filename in markers dir
 	var markersPath = path.join(__dirname, '/markers/');
 
 	//Find specific marker
-	var markerDir = markersPath + dirName;
+	var markerDir = markersPath + file.name;
 
 	//Grab the expected stdout
 	var sampleOutput = markerDir + '/stdout.txt';

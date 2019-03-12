@@ -110,6 +110,27 @@ stdout in the respective marker directory. I also removed some unused dependenci
 I then refactored the code to clean up some deprecated functionality/logging used for testing purposes. I also added the functionality for when a file is incorrect
 or if a file is invalid (file name incorrect etc.)
 
+## Blog Entry 012 - 11/03/2019
+
+There is functionality for both Python and Shell scripts to be marked by the application. This shows multi language functionality and that more could be added
+if needed. There is also a failsafe for if a file has no marker directory/is incorrectly named before any upload is executed so that the application can continue 
+to run.
+
+Next steps:
+- Authentication
+- Storing student uploads
+- Styling
+- Further testing
+
+The next main feature I want to implement is authentication for users landing on the Einstein upload page. This is the last important functionaltiy to have a properly 
+functioning Einstein application. This will hopefully be done using Google Auth. Once this works, I will be able to store the most recent student upload in a file
+system based on their username and the file name. This will be done within .txt files as there is no need for a database.
+
+When this is completed I intend to do some final steps to the core application and ensure it is a solid system rather than adding *bells and whistles*.
+These include some styling of the web pages and testing of the application as a whole.
+
+Hosting the application in DCU and any further functionality will be considered after the above has been implemented satisfactorily. 
+
 ---
 
 This week, I learned how to include

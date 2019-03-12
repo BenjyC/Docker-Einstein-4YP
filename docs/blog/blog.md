@@ -118,11 +118,13 @@ to run.
 
 Next steps:
 - Authentication
+- Storing student uploads
 - Styling
 - Further testing
 
 The next main feature I want to implement is authentication for users landing on the Einstein upload page. This is the last important functionaltiy to have a properly 
-functioning Einstein application. This will hopefully be done using Google Auth. 
+functioning Einstein application. This will hopefully be done using Google Auth. Once this works, I will be able to store the most recent student upload in a file
+system based on their username and the file name. This will be done within .txt files as there is no need for a database.
 
 When this is completed I intend to do some final steps to the core application and ensure it is a solid system rather than adding *bells and whistles*.
 These include some styling of the web pages and testing of the application as a whole.

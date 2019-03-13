@@ -5,6 +5,5 @@ block content
   p Welcome to #{title}
 
   form(action='/feedback', enctype='multipart/form-data', method='POST')
-    label(class='btn btn-primary btn-file') Choose File
-      input(type='file', name='upload')
+    input(type='file', name='upload')
     input(type='submit', value='Upload', class='btn btn-primary')

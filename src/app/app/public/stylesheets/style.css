@@ -1,6 +1,13 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    padding: 50px;
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    background: linear-gradient(
+        rgba(189, 195, 199, 1), 
+        rgba(238, 242, 243, 1));
+}
+
+html, body {
+    min-height: 100%;
 }
 
 a {
@@ -26,4 +33,31 @@ a {
     background: white;
     cursor: inherit;
     display: block;
+}
+
+.vertical-center {
+    min-height: 50%;
+    min-height: 50vh;
+
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+#outerDiv {
+    min-height: 75%;
+    min-height: 75vh;
+
+}
+
+.row {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+.jumbotron {
+    -moz-box-shadow: 0px 10px 10px grey;
+    -webkit-box-shadow: 0px 10px 10px grey;
+    box-shadow: 0px 10px 10px grey;
 }

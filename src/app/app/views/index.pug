@@ -2,7 +2,15 @@ extends layout
 
 block content
   h1= title
-  p Welcome to #{title}
+
+  br 
+  br 
+  br 
+
+  p Please upload a file to be marked
+
+  br
+  br
 
   form(action='/feedback', enctype='multipart/form-data', method='POST')
     input(type='file', name='upload')

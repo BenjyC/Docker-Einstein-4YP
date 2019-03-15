@@ -131,6 +131,26 @@ These include some styling of the web pages and testing of the application as a 
 
 Hosting the application in DCU and any further functionality will be considered after the above has been implemented satisfactorily. 
 
+## Blog Entry 013 - 15/03/2019
+
+I have implemented some simple front end styling on 'feat/styling'. This involves a very basic but easy to read upload screen, along with a feedback screen that
+displays the contents of an uploaded file, and colour codes correctness (green/red) for easily readable verification. 
+
+As mentioned in the FuncSpec and readme for this application, the frontend UI is intended to be kept barebones and simplistic. This is due to the idea that it
+should be usable anywhere outside of DCU, meaning any student of any language/background should be able to quickly and easily interact with the system. Therefore,
+I have purposely kept styling at a minimum.
+
+As part of the 'Storing student uploads' task in the last blog entry, I also wish to flesh out the markers and add functionality for multiple test cases 
+within a singular marker.
+
+![New UI](https://gitlab.computing.dcu.ie/colemab5/2019-ca400-colemab5/raw/master/docs/blog/images/NewUI.png).
+
+Next steps:
+- Authentication
+- Storing student uploads
+- ~~Styling~~
+- Further testing
+
 ---
 
 This week, I learned how to include

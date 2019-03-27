@@ -2,65 +2,78 @@ var path = require('path');
 var fs = require('fs');
 const { execFile } = require('child_process');
 const { exec } = require('child_process');
+const { promisify } = require('util');
 
-function outputFile(file){
-	console.log(file.path);
-}
+//Marker directory
+var markersPath = path.join(__dirname, '/markers/');
 
-function checkForMarker(file, callback){
+//Reading directories function
+const readdir = promisify(fs.readdir);
 
-/*	//Filename with extension removed
-	var dirName = file.name.split('.').slice(0,-1).join('.');*/
+async function checkForMarker(file, checkForMarkerCb){
 	
-	//Check for dir matching filename in markers dir
-	var markersPath = path.join(__dirname, '/markers/');
-
 	//Find specific marker
 	var markerDir = markersPath + file.name;
-
-	//Grab the expected stdout
-	var sampleOutput = markerDir + '/stdout.txt';
 
 	//Check if marker exists before continuing
 	if(fs.existsSync(markerDir)){
 
-		//Grab marker stdout.txt
-		var markerOut = fs.readFileSync(sampleOutput, function(err){
-			if (err){
-				throw err;
-			};
-		});
-
-		//Run the file and grab the output
-		executeFile(file.name, function(fileOut) {
-
-			//console.log('FILE OUTPUT ' + fileOut);
-			//console.log('MARKER OUTPUT ' + markerOut);
-	
-			//Compare output with sample stdout
-			if (markerOut == fileOut){
-				callback('correct');
+		let files;
+		try {
+			
+			{err, files} = await readdir(markerDir);
+			if (err) {
+				console.log(err);
 			}
 
-			else {
-				callback('incorrect');
+		} catch (e) {
+			console.log("Exception: " + e);
+		}
+
+		if (files != undefined) {
+
+			var resultsArr = await getArray(file, files.length, markerDir);
+
+			if (resultsArr){
+				for(var i=0;i<resultsArr.length;i++) {
+
+					if (resultsArr[i] == "incorrect"){
+						checkForMarkerCb('incorrect');
+						break;
+					}
+
+					else if (i+1 == resultsArr.length) {
+						checkForMarkerCb('correct');
+					}
+				}
 			}
-		});
+		}		
 	}
 
 	else {
-		callback('invalid');
-	}
+		checkForMarkerCb('invalid');
+	}	
+
+
 };
 
-function executeFile(filename, callback){
+async function getArray(file, fileLength, markerDir) {
+
+	return await getResults(file, fileLength, markerDir);
+}
+
+
+function executeFile(filename, execFileCb){
 
 	//Get path to uploaded file
 	var uploadPath = path.join(__dirname, '/uploads/');
 
+	//Find specific marker
+	var markerDir = markersPath + filename;
+
 	//Get file extension
 	var fileExt = filename.split('.').pop();
-	
+
 	//If Python file
 	if (fileExt == 'py') {
 
@@ -72,7 +85,7 @@ function executeFile(filename, callback){
 				throw err;
 			}
 
-			callback(stdout);
+			execFileCb(stdout);
 		});
 	}
 
@@ -87,14 +100,54 @@ function executeFile(filename, callback){
 				throw err;
 			}
 
-			callback(stdout);
+			execFileCb(stdout);
 		});
 	}
 
 }
 
+
+async function getResults(file, fileLength, markerDir) {
+
+	resultsArr = [];
+
+	var count = 0
+	for(var i=1; i<=fileLength; i++) {
+		var sampleOut = markerDir + '/test' + i + '/stdout.txt';
+
+		count++
+
+		console.log('test' + i);
+
+		//Grab marker stdout.txt
+		var markerOut = fs.readFileSync(sampleOut, function(err){
+			if (err){
+				throw err;
+			};
+		});
+
+		//Run the file and grab the output
+		executeFile(file.name, function(fileOut){
+
+			//Compare output with sample stdout
+			if (markerOut == fileOut){
+				resultsArr.push('correct');
+			}
+
+			else {
+				resultsArr.push('incorrect');
+			}
+		});
+	}
+
+	if (resultsArr.length == fileLength) {
+		console.log(resultsArr);
+		return resultsArr;
+	}
+}
+
 module.exports = {
-	outputFile: outputFile,
 	checkForMarker: checkForMarker,
-	executeFile: executeFile
+	executeFile: executeFile,
+	getResults: getResults
 };

@@ -2,7 +2,31 @@ extends layout
 
 block content
   h1= title
+  br
 
   p Your upload file is: #{file}
-  p Upload status: #{status}
+
+  if status == "Correct"
+    p(style="color:green;") Upload status: #{status}
+
+  else
+    p(style="color:red;") Upload status: #{status}
+
+  br
+
+  if contents  
+    p Your file: <br /> #{contents} 
+
+  br
+
+  button(class="btn btn-primary" onclick="move()") Upload Another File
+
+  script.
+    function move() {
+      window.location.href = '/'
+    }
+
+    function statusCol() {
+      alert('yes')
+    }
 

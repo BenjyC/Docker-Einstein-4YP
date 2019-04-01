@@ -17,6 +17,6 @@
     "chromedriver": "^2.46.0",
     "geckodriver": "^1.16.0",
     "mocha": "^5.2.0",
-    "selenium-server": "^3.141.59"
+    "selenium-server": "^3.141.59",
+    "express": "^4.16.4"
   }
-}

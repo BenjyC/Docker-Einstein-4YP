@@ -151,6 +151,31 @@ Next steps:
 - ~~Styling~~
 - Further testing
 
+## Blog Entry 014 - 02/04/2019
+
+Student uploads will be stored in a text file under their name in a parent directory of all student data. Once authentication is implemented, the logged in student
+name will be used to determine this path and ensure a students file is stored under their own name. 
+
+Further testing has been implemented, along with updates for the current Mocha unit tests. Nightwatch.js testing framework has been integrated, along with some
+selenium based browser tests for functionality such as uploading and redirecting. 
+
+A basic Nightwatch test execution can be seen below. This particular test checks if the system behaves as expected when no file is uploaded:
+
+![NWTest1](https://gitlab.computing.dcu.ie/colemab5/2019-ca400-colemab5/raw/master/docs/blog/images/NWTest1.png)
+
+I have also been working on having the system look through multiple test cases for an uploaded file during marking and check if any fail rather than just having a 
+single test case. This is a still a WIP due to issues with Nodejs being asynchronous and test cases not being checked in the correct order. Once that is completed,
+I will ensure tests can work with stdin.txt as well, although these are two minor features to look into.
+
+The next step in finishing off the project will be implementing the Google Authentication and completing the checklist I had made a few weeks back.
+
+Next steps:
+- Authentication
+- ~~Storing student uploads~~ (just need to add student name after auth)
+- ~~Styling~~
+- ~~Further testing~~ (WIP as more tests can be added)
+
+
 ---
 
 This week, I learned how to include

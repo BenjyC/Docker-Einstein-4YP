@@ -7,12 +7,12 @@ module.exports = {
       browser
         .url("http://localhost:3000")
         .waitForElementVisible('body', 1000)
-        .waitForElementVisible('input[name=upload]', 1000)
+        .waitForElementVisible('input[type=file]', 1000)
         .pause(1000)
-        .setValue('input[name=upload]', path.resolve(__dirname + '/testfile.txt'))
+        .setValue('input[type=file]', path.resolve(__dirname + '/testfile.txt'))
         .click('input[type=submit]')
         .pause(3000)
-        .assert.path.exists(__dirname + '../uploads/testfile.txt')
+        .assert.containsText('#upload', 'Your upload file is: testfile.txt')
         .end();
   }
 };

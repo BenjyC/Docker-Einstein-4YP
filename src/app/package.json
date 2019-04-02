@@ -4,7 +4,7 @@
   "description": "Einstein application",
   "main": "app.js",
   "scripts": {
-    "test": "find app/test -name '*.js' | xargs mocha -R spec"
+    "test": "find app/test/unit -name '*.js' | xargs mocha -R spec"
   },
   "author": "",
   "license": "ISC",
@@ -20,3 +20,4 @@
     "selenium-server": "^3.141.59",
     "express": "^4.16.4"
   }
+}

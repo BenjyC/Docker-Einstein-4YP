@@ -2,6 +2,7 @@
 src/app/node_modules
 src/app/app/node_modules
 src/app/app/uploads/*
+src/app/app/test/reports/*
 
 # Ignore java .class files.
 *.class

@@ -4,7 +4,7 @@ block content
   h1= title
   br
 
-  p Your upload file is: #{file}
+  p#upload Your upload file is: #{file}
 
   if status == "Correct"
     p(style="color:green;") Upload status: #{status}
@@ -25,8 +25,3 @@ block content
     function move() {
       window.location.href = '/'
     }
-
-    function statusCol() {
-      alert('yes')
-    }
-

@@ -67,7 +67,7 @@ router.post('/', function(req, res, next) {
                 if (fs.existsSync(filePath + fileName)) {
                 
                     //Call file marker code and find out whether correct/incorrect
-                    fm.checkForMarker(file, function(status){
+                    fm.checkForMarker(file, function(status, passRate){
                         
                         if (status == 'correct') {
                             res.render('feedback', { title: 'Upload feedback page', file: fileName, status: 'Correct'});

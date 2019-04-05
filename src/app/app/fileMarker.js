@@ -37,17 +37,27 @@ async function checkForMarker(file, checkForMarkerCb){
 			var resultsArr = await getResults(file.name, files.length, markerDir);
 
 			if (resultsArr){
+
+				//['correct', 'correct', 'correct'] #1
+				var pass = 0;
 				for(var i=0;i<resultsArr.length;i++) {
 
-					if (resultsArr[i] == "incorrect"){
-						checkForMarkerCb('incorrect');
-						break;
-					}
-
-					else if (i+1 == resultsArr.length) {
-						checkForMarkerCb('correct');
+					if (resultsArr[i] == "correct"){
+						pass += 1;
+						console.log('PASS'+ pass);
 					}
 				}
+
+				var passRate = pass + '/' + files.length
+				console.log(passRate);
+				if (pass == resultsArr.length){
+					checkForMarkerCb('correct', passRate);
+				}
+
+				else {
+					checkForMarkerCb('incorrect', passRate);
+				}
+					
 			}
 		}		
 	}
@@ -69,7 +79,7 @@ function executeFile(filename){
 	var fileExt = filename.split('.').pop();
 
 	return new Promise(function(resolve,reject){
-		
+
 		//If Python file
 		if (fileExt == 'py') {
 

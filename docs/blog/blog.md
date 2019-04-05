@@ -102,6 +102,80 @@ The application now receives an upload, checks if it has a marker directory, and
 Next I plan to have the output of the uploaded code checked against the contents of it's marker i.e check if it is actually correct.
 I also plan to add functionality for shell scripts to show multiple languages are possible.
 
+## Blog Entry 011 - 28/02/2019
+
+Today I worked on having the uploaded files actually marked i.e checking their output against the marker output. The uploads are now run and compared with the
+stdout in the respective marker directory. I also removed some unused dependencies from the package.json files. 
+
+I then refactored the code to clean up some deprecated functionality/logging used for testing purposes. I also added the functionality for when a file is incorrect
+or if a file is invalid (file name incorrect etc.)
+
+## Blog Entry 012 - 11/03/2019
+
+There is functionality for both Python and Shell scripts to be marked by the application. This shows multi language functionality and that more could be added
+if needed. There is also a failsafe for if a file has no marker directory/is incorrectly named before any upload is executed so that the application can continue 
+to run.
+
+Next steps:
+- Authentication
+- Storing student uploads
+- Styling
+- Further testing
+
+The next main feature I want to implement is authentication for users landing on the Einstein upload page. This is the last important functionaltiy to have a properly 
+functioning Einstein application. This will hopefully be done using Google Auth. Once this works, I will be able to store the most recent student upload in a file
+system based on their username and the file name. This will be done within .txt files as there is no need for a database.
+
+When this is completed I intend to do some final steps to the core application and ensure it is a solid system rather than adding *bells and whistles*.
+These include some styling of the web pages and testing of the application as a whole.
+
+Hosting the application in DCU and any further functionality will be considered after the above has been implemented satisfactorily. 
+
+## Blog Entry 013 - 15/03/2019
+
+I have implemented some simple front end styling on 'feat/styling'. This involves a very basic but easy to read upload screen, along with a feedback screen that
+displays the contents of an uploaded file, and colour codes correctness (green/red) for easily readable verification. 
+
+As mentioned in the FuncSpec and readme for this application, the frontend UI is intended to be kept barebones and simplistic. This is due to the idea that it
+should be usable anywhere outside of DCU, meaning any student of any language/background should be able to quickly and easily interact with the system. Therefore,
+I have purposely kept styling at a minimum.
+
+As part of the 'Storing student uploads' task in the last blog entry, I also wish to flesh out the markers and add functionality for multiple test cases 
+within a singular marker.
+
+![New UI](https://gitlab.computing.dcu.ie/colemab5/2019-ca400-colemab5/raw/master/docs/blog/images/NewUI.png).
+
+Next steps:
+- Authentication
+- Storing student uploads
+- ~~Styling~~
+- Further testing
+
+## Blog Entry 014 - 02/04/2019
+
+Student uploads will be stored in a text file under their name in a parent directory of all student data. Once authentication is implemented, the logged in student
+name will be used to determine this path and ensure a students file is stored under their own name. 
+
+Further testing has been implemented, along with updates for the current Mocha unit tests. Nightwatch.js testing framework has been integrated, along with some
+selenium based browser tests for functionality such as uploading and redirecting. 
+
+A basic Nightwatch test execution can be seen below. This particular test checks if the system behaves as expected when no file is uploaded:
+
+![NWTest1](https://gitlab.computing.dcu.ie/colemab5/2019-ca400-colemab5/raw/master/docs/blog/images/NWTest1.png)
+
+I have also been working on having the system look through multiple test cases for an uploaded file during marking and check if any fail rather than just having a 
+single test case. This is a still a WIP due to issues with Nodejs being asynchronous and test cases not being checked in the correct order. Once that is completed,
+I will ensure tests can work with stdin.txt as well, although these are two minor features to look into.
+
+The next step in finishing off the project will be implementing the Google Authentication and completing the checklist I had made a few weeks back.
+
+Next steps:
+- Authentication
+- ~~Storing student uploads~~ (just need to add student name after auth)
+- ~~Styling~~
+- ~~Further testing~~ (WIP as more tests can be added)
+
+
 ---
 
 This week, I learned how to include

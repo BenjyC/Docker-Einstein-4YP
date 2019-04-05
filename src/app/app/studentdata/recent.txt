@@ -1,1 +1,1 @@
-print('Wrong output')
+print("Hello World")

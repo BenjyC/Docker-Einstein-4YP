@@ -4,14 +4,13 @@ var path = require('path');
 var fs = require('fs');
 var router = express.Router();
 var fm = require('../fileMarker.js');
-var noFile = false;
 
 //HTTP Methods
 
 /* GET feedback page. */
 router.get('/', function(req, res, next) {
-  res.render('feedback', { title: 'No file provided' });
-  //redirect to no file provided*
+  res.render('index', { title: 'Docker Einstein Upload Page' });
+  //res.render('feedback', { title: 'No file provided' });
 
 });
 
@@ -62,23 +61,32 @@ router.post('/', function(req, res, next) {
 
             //Check if file has been uploaded
             function fileExists() {
-                
+    
+                var filePath = path.join(__dirname, '../uploads/')
+                var fileLocation = filePath + fileName
+
                 //If file is uploaded, render feedback page and clear timeout
-                if (fs.existsSync(filePath + fileName)) {
+                if (fs.existsSync(fileLocation)) {
                 
+                    var fileContents = fs.readFileSync(fileLocation, function(err){
+                        if(err){
+                            throw err;
+                        };
+                    });
+
                     //Call file marker code and find out whether correct/incorrect
                     fm.checkForMarker(file, function(status, passRate){
                         
                         if (status == 'correct') {
-                            res.render('feedback', { title: 'Upload feedback page', file: fileName, status: 'Correct'});
+                            res.render('feedback', { title: 'Upload Feedback', file: fileName, status: 'Correct', passRate:passRate, contents: fileContents});
                         }
 
                         else if (status == 'incorrect') {
-                            res.render('feedback', { title: 'Upload feedback page', file: fileName, status: 'Incorrect'});
+                            res.render('feedback', { title: 'Upload Feedback', file: fileName, status: 'Incorrect', passRate:passRate, contents: fileContents});
                         }
 
                         else {
-                            res.render('feedback', { title: 'Upload feedback page', file: fileName, status: 'Invalid upload file name'});
+                            res.render('feedback', { title: 'Upload Feedback', file: fileName, status: 'Invalid upload file name'});
                         }
 
                     clearInterval(uploadTimeout);
@@ -88,7 +96,6 @@ router.post('/', function(req, res, next) {
             }      
         }   
     });
-    
 });
 
 module.exports = router;

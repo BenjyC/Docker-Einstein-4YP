@@ -5,7 +5,7 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Docker Einstein upload page' });
+  res.render('index', { title: 'Docker Einstein Upload Page' });
 });
 
 module.exports = router;

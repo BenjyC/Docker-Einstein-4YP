@@ -44,12 +44,11 @@ async function checkForMarker(file, checkForMarkerCb){
 
 					if (resultsArr[i] == "correct"){
 						pass += 1;
-						console.log('PASS'+ pass);
 					}
 				}
 
-				var passRate = pass + '/' + files.length
-				console.log(passRate);
+				var passRate = pass + '/' + files.length;
+
 				if (pass == resultsArr.length){
 					checkForMarkerCb('correct', passRate);
 				}
@@ -116,8 +115,6 @@ async function getResults(filename, fileLength, markerDir) {
 	for(var i=1; i<=fileLength; i++) {
 		var sampleOut = markerDir + '/test' + i + '/stdout.txt';
 
-		console.log('test' + i);
-
 		//Grab marker stdout.txt
 		var markerOut = fs.readFileSync(sampleOut, 'utf-8', function(err){
 			if (err){
@@ -135,8 +132,6 @@ async function getResults(filename, fileLength, markerDir) {
 		else {
 			resultsArr.push('incorrect');
 		}
-
-		console.log(resultsArr);
 	}
 
 	if (resultsArr.length == fileLength) {

@@ -10,6 +10,18 @@ var markersPath = path.join(__dirname, '/markers/');
 //Reading directories function
 const readdir = promisify(fs.readdir);
 
+function readdirAsync(path) {
+  return new Promise(function (resolve, reject) {
+    fs.readdir(path, function (error, result) {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(result);
+      }
+    });
+  });
+}
+
 async function checkForMarker(file, checkForMarkerCb){
 	
 	//Find specific marker
@@ -18,21 +30,11 @@ async function checkForMarker(file, checkForMarkerCb){
 	//Check if marker exists before continuing
 	if(fs.existsSync(markerDir)){
 
-		let files;
-		try {
-			
-			{err, files} = await readdir(markerDir);
-			if (err) {
-				console.log(err);
-			}
+		var files = await readdirAsync(markerDir);
 
-		} catch (e) {
-			console.log("Exception: " + e);
-		}
+		if (typeof files != undefined) {
 
-		if (files != undefined) {
-
-			var resultsArr = await getArray(file, files.length, markerDir);
+			var resultsArr = await getResults(file.name, files.length, markerDir);
 
 			if (resultsArr){
 				for(var i=0;i<resultsArr.length;i++) {
@@ -53,17 +55,9 @@ async function checkForMarker(file, checkForMarkerCb){
 	else {
 		checkForMarkerCb('invalid');
 	}	
-
-
 };
 
-async function getArray(file, fileLength, markerDir) {
-
-	return await getResults(file, fileLength, markerDir);
-}
-
-
-function executeFile(filename, execFileCb){
+function executeFile(filename){
 
 	//Get path to uploaded file
 	var uploadPath = path.join(__dirname, '/uploads/');
@@ -74,74 +68,68 @@ function executeFile(filename, execFileCb){
 	//Get file extension
 	var fileExt = filename.split('.').pop();
 
-	//If Python file
-	if (fileExt == 'py') {
+	return new Promise(function(resolve,reject){
+		
+		//If Python file
+		if (fileExt == 'py') {
 
-		//Specific path to file
-		var pyUpload = uploadPath + filename;
+			//Specific path to file
+			var pyUpload = uploadPath + filename;
 
-		const child = execFile('python', [pyUpload], (err,stdout,stderr) => {
-			if (err) {
-				throw err;
-			}
+			const child = execFile('python', [pyUpload], (err,stdout,stderr) => {
+				if (err) reject (err);
 
-			execFileCb(stdout);
-		});
-	}
+				else resolve(stdout);
+			});	
+		}
 
-	//If Shell script
-	if (fileExt == 'sh'){
+		//If shell script
+		else if (fileExt == 'sh'){
 
-		//Shell execution
-		var shFile = './' + filename;
+			//Shell execution
+			var shFile = './' + filename;
 
-		const child = exec(shFile, {cwd: uploadPath}, (err,stdout,stderr) => {
-			if (err) {
-				throw err;
-			}
-
-			execFileCb(stdout);
-		});
-	}
-
+			const child = exec(shFile, {cwd: uploadPath}, (err,stdout,stderr) => {
+				if (err) reject (err)
+				
+				else resolve(stdout);
+			});
+		}
+	});
 }
 
 
-async function getResults(file, fileLength, markerDir) {
+async function getResults(filename, fileLength, markerDir) {
 
 	resultsArr = [];
 
-	var count = 0
 	for(var i=1; i<=fileLength; i++) {
 		var sampleOut = markerDir + '/test' + i + '/stdout.txt';
-
-		count++
 
 		console.log('test' + i);
 
 		//Grab marker stdout.txt
-		var markerOut = fs.readFileSync(sampleOut, function(err){
+		var markerOut = fs.readFileSync(sampleOut, 'utf-8', function(err){
 			if (err){
 				throw err;
 			};
 		});
 
-		//Run the file and grab the output
-		executeFile(file.name, function(fileOut){
+		//Run the file and wait for the output
+		var fileOut = await executeFile(filename);
+			
+		if (markerOut == fileOut){
+			resultsArr.push('correct');
+		}
 
-			//Compare output with sample stdout
-			if (markerOut == fileOut){
-				resultsArr.push('correct');
-			}
+		else {
+			resultsArr.push('incorrect');
+		}
 
-			else {
-				resultsArr.push('incorrect');
-			}
-		});
+		console.log(resultsArr);
 	}
 
 	if (resultsArr.length == fileLength) {
-		console.log(resultsArr);
 		return resultsArr;
 	}
 }

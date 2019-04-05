@@ -2,99 +2,145 @@ var path = require('path');
 var fs = require('fs');
 const { execFile } = require('child_process');
 const { exec } = require('child_process');
+const { promisify } = require('util');
 
-function outputFile(file){
-	console.log(file.path);
+//Marker directory
+var markersPath = path.join(__dirname, '/markers/');
+
+//Reading directories function
+const readdir = promisify(fs.readdir);
+
+function readdirAsync(path) {
+  return new Promise(function (resolve, reject) {
+    fs.readdir(path, function (error, result) {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(result);
+      }
+    });
+  });
 }
 
-function checkForMarker(file, callback){
-
-/*	//Filename with extension removed
-	var dirName = file.name.split('.').slice(0,-1).join('.');*/
+async function checkForMarker(file, checkForMarkerCb){
 	
-	//Check for dir matching filename in markers dir
-	var markersPath = path.join(__dirname, '/markers/');
-
 	//Find specific marker
 	var markerDir = markersPath + file.name;
-
-	//Grab the expected stdout
-	var sampleOutput = markerDir + '/stdout.txt';
 
 	//Check if marker exists before continuing
 	if(fs.existsSync(markerDir)){
 
+		var files = await readdirAsync(markerDir);
+
+		if (typeof files != undefined) {
+
+			var resultsArr = await getResults(file.name, files.length, markerDir);
+
+			if (resultsArr){
+
+				//['correct', 'correct', 'correct'] #1
+				var pass = 0;
+				for(var i=0;i<resultsArr.length;i++) {
+
+					if (resultsArr[i] == "correct"){
+						pass += 1;
+					}
+				}
+
+				var passRate = pass + '/' + files.length;
+
+				if (pass == resultsArr.length){
+					checkForMarkerCb('correct', passRate);
+				}
+
+				else {
+					checkForMarkerCb('incorrect', passRate);
+				}
+					
+			}
+		}		
+	}
+
+	else {
+		checkForMarkerCb('invalid');
+	}	
+};
+
+function executeFile(filename){
+
+	//Get path to uploaded file
+	var uploadPath = path.join(__dirname, '/uploads/');
+
+	//Find specific marker
+	var markerDir = markersPath + filename;
+
+	//Get file extension
+	var fileExt = filename.split('.').pop();
+
+	return new Promise(function(resolve,reject){
+
+		//If Python file
+		if (fileExt == 'py') {
+
+			//Specific path to file
+			var pyUpload = uploadPath + filename;
+
+			const child = execFile('python', [pyUpload], (err,stdout,stderr) => {
+				if (err) reject (err);
+
+				else resolve(stdout);
+			});	
+		}
+
+		//If shell script
+		else if (fileExt == 'sh'){
+
+			//Shell execution
+			var shFile = './' + filename;
+
+			const child = exec(shFile, {cwd: uploadPath}, (err,stdout,stderr) => {
+				if (err) reject (err)
+				
+				else resolve(stdout);
+			});
+		}
+	});
+}
+
+
+async function getResults(filename, fileLength, markerDir) {
+
+	resultsArr = [];
+
+	for(var i=1; i<=fileLength; i++) {
+		var sampleOut = markerDir + '/test' + i + '/stdout.txt';
+
 		//Grab marker stdout.txt
-		var markerOut = fs.readFileSync(sampleOutput, function(err){
+		var markerOut = fs.readFileSync(sampleOut, 'utf-8', function(err){
 			if (err){
 				throw err;
 			};
 		});
 
-		//Run the file and grab the output
-		executeFile(file.name, function(fileOut) {
+		//Run the file and wait for the output
+		var fileOut = await executeFile(filename);
+			
+		if (markerOut == fileOut){
+			resultsArr.push('correct');
+		}
 
-			//console.log('FILE OUTPUT ' + fileOut);
-			//console.log('MARKER OUTPUT ' + markerOut);
-	
-			//Compare output with sample stdout
-			if (markerOut == fileOut){
-				callback('correct');
-			}
-
-			else {
-				callback('incorrect');
-			}
-		});
+		else {
+			resultsArr.push('incorrect');
+		}
 	}
 
-	else {
-		callback('invalid');
+	if (resultsArr.length == fileLength) {
+		return resultsArr;
 	}
-};
-
-function executeFile(filename, callback){
-
-	//Get path to uploaded file
-	var uploadPath = path.join(__dirname, '/uploads/');
-
-	//Get file extension
-	var fileExt = filename.split('.').pop();
-	
-	//If Python file
-	if (fileExt == 'py') {
-
-		//Specific path to file
-		var pyUpload = uploadPath + filename;
-
-		const child = execFile('python', [pyUpload], (err,stdout,stderr) => {
-			if (err) {
-				throw err;
-			}
-
-			callback(stdout);
-		});
-	}
-
-	//If Shell script
-	if (fileExt == 'sh'){
-
-		//Shell execution
-		var shFile = './' + filename;
-
-		const child = exec(shFile, {cwd: uploadPath}, (err,stdout,stderr) => {
-			if (err) {
-				throw err;
-			}
-
-			callback(stdout);
-		});
-	}
-
 }
 
 module.exports = {
-	outputFile: outputFile,
 	checkForMarker: checkForMarker,
-	executeFile: executeFile
+	executeFile: executeFile,
+	getResults: getResults
 };

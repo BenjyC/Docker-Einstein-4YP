@@ -4,18 +4,22 @@ block content
   h1= title
   br
 
-  p Your upload file is: #{file}
-
   if status == "Correct"
-    p(style="color:green;") Upload status: #{status}
+    p(style="color:green;font-size:20px;") Upload status: #{status}
 
   else
-    p(style="color:red;") Upload status: #{status}
+    p(style="color:red;font-size:20px;") Upload status: #{status}
 
-  br
+  p Passed #{passRate} test cases
+  
+  hr
 
-  if contents  
-    p Your file: <br /> #{contents} 
+  p(style="color:blue;") Your upload file is: #{file}
+
+  if contents
+    button(class="btn" onclick="displayFile()") Show File 
+    br 
+    p(id="showFile" style="display:none;") <br /> #{contents} 
 
   br
 
@@ -26,7 +30,7 @@ block content
       window.location.href = '/'
     }
 
-    function statusCol() {
-      alert('yes')
+    function displayFile() {
+      document.getElementById('showFile').style.display = 'block';
     }
 

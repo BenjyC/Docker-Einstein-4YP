@@ -33,9 +33,20 @@ router.post('/', function(req, res, next) {
     //Save to uploads directory
     form.on('fileBegin', function (name, file){
         if (file.name != ""){
-            saveDir = path.join(__dirname, '../uploads/')
-            file.path = saveDir + file.name;
+            tmpDir = path.join(__dirname, '../uploads/')
+            file.path = tmpDir + file.name;
         }
+
+        //Save recent upload to storage
+        //TODO save under specific student name
+        //../studentdata/ + user + /recent.txt
+
+        saveDir = path.join(__dirname, '../studentdata/recent.txt');      
+        fs.copyFile(file.path, saveDir, function(err){
+            if (err) {
+                throw err;
+            }
+        });
     });
 
     //Work with the file
@@ -43,12 +54,14 @@ router.post('/', function(req, res, next) {
 
         var fileName = file.name;
 
+        var filePath = path.join(__dirname, '../uploads/')
+
         if (fileName != ""){
-            var uploadTimeout = setInterval(fileExists, 200);
+            var uploadTimeout = setInterval(fileExists, 1000);
 
             //Check if file has been uploaded
             function fileExists() {
-                
+    
                 var filePath = path.join(__dirname, '../uploads/')
                 var fileLocation = filePath + fileName
 
@@ -62,13 +75,14 @@ router.post('/', function(req, res, next) {
                     });
 
                     //Call file marker code and find out whether correct/incorrect
-                    fm.checkForMarker(file, function(status){
+                    fm.checkForMarker(file, function(status, passRate){
+                        
                         if (status == 'correct') {
-                            res.render('feedback', { title: 'Upload Feedback', file: fileName, status: 'Correct', contents: fileContents});
+                            res.render('feedback', { title: 'Upload Feedback', file: fileName, status: 'Correct', passRate:passRate, contents: fileContents});
                         }
 
                         else if (status == 'incorrect') {
-                            res.render('feedback', { title: 'Upload Feedback', file: fileName, status: 'Incorrect', contents: fileContents});
+                            res.render('feedback', { title: 'Upload Feedback', file: fileName, status: 'Incorrect', passRate:passRate, contents: fileContents});
                         }
 
                         else {

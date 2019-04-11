@@ -40,13 +40,6 @@ router.post('/', function(req, res, next) {
         //Save recent upload to storage
         //TODO save under specific student name
         //../studentdata/ + user + /recent.txt
-
-        saveDir = path.join(__dirname, '../studentdata/recent.txt');      
-        fs.copyFile(file.path, saveDir, function(err){
-            if (err) {
-                throw err;
-            }
-        });
     });
 
     //Work with the file
@@ -64,6 +57,13 @@ router.post('/', function(req, res, next) {
     
                 var filePath = path.join(__dirname, '../uploads/')
                 var fileLocation = filePath + fileName
+
+                saveDir = path.join(__dirname, '../studentdata/recent.txt');      
+                fs.copyFile(file.path, saveDir, function(err){
+                    if (err) {
+                        throw err;
+                    }
+                });
 
                 //If file is uploaded, render feedback page and clear timeout
                 if (fs.existsSync(fileLocation)) {

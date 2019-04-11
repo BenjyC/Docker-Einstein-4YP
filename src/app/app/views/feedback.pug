@@ -10,7 +10,8 @@ block content
   else
     p(style="color:red;font-size:20px;") Upload status: #{status}
 
-  p Passed #{passRate} test cases
+  if passRate != null
+    p Passed #{passRate} test cases
   
   hr
 

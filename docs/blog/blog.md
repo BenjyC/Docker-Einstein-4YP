@@ -175,6 +175,27 @@ Next steps:
 - ~~Styling~~
 - ~~Further testing~~ (WIP as more tests can be added)
 
+## Blog Entry 015 - 12/04/2019
+
+The Authentication is working on feat/auth using OAuth for DCU email addresses. I will use the details on an authenticated user to store their upload under their name,
+and once this is completed the authentication will be part of master.
+
+After meeting with supervisor to discuss progress so far, we came up with the next few steps to improve the system.
+
+Finish Authentication
+- Ensure that authentication is completed ASAP so that user uploads can be stored in revelant path.
+
+Standard input to test cases
+- There needs to be test cases that read in standard input as up until now only uploads without any input have been used.
+
+Front end styling
+- The front end UI needs some updating to display more information to a user about test case specific feedback.
+
+Bug fixing
+- Ensuring the uploads directory is user specific (will work with authenticated users name).
+- Shell script functionality not working with Promises
+- ~~Uploaded file being copied elsewhere before upload is complete~~ (fixed)
+
 
 ---
 

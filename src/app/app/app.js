@@ -6,6 +6,7 @@ var logger = require('morgan');
 var formidable = require('formidable');
 var http = require('http');
 var passportSetup = require('./config/passport-setup.js')
+var passport = require('passport');
 
 // Routers
 var indexRouter = require('./routes/index');
@@ -25,10 +26,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+//Initialize passport
+app.use(passport.initialize());
+
 app.use('/', indexRouter);
 app.use('/auth', authRouter);
 app.use('/feedback', feedbackRouter);
-
 
 // Catch 404 and forward to error handler
 app.use(function(req, res, next) {

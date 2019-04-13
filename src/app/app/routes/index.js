@@ -5,7 +5,12 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Docker Einstein Upload Page' });
+  if(res.app.locals.displayName){
+  	res.render('index', { title: 'Docker Einstein Upload Page' });
+  }
+  else {
+  	res.redirect('/auth/login');
+  }
 });
 
 module.exports = router;

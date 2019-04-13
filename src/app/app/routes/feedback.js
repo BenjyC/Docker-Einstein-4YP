@@ -33,13 +33,10 @@ router.post('/', function(req, res, next) {
     //Save to uploads directory
     form.on('fileBegin', function (name, file){
         if (file.name != ""){
-            tmpDir = path.join(__dirname, '../uploads/')
+            tmpDir = path.join(__dirname, '../uploads/');
             file.path = tmpDir + file.name;
         }
 
-        //Save recent upload to storage
-        //TODO save under specific student name
-        //../studentdata/ + user + /recent.txt
     });
 
     //Work with the file
@@ -47,7 +44,7 @@ router.post('/', function(req, res, next) {
 
         var fileName = file.name;
 
-        var filePath = path.join(__dirname, '../uploads/')
+        var filePath = path.join(__dirname, '../uploads/');
 
         if (fileName != ""){
             var uploadTimeout = setInterval(fileExists, 1000);
@@ -58,16 +55,32 @@ router.post('/', function(req, res, next) {
                 var filePath = path.join(__dirname, '../uploads/')
                 var fileLocation = filePath + fileName
 
-                saveDir = path.join(__dirname, '../studentdata/recent.txt');      
-                fs.copyFile(file.path, saveDir, function(err){
-                    if (err) {
-                        throw err;
-                    }
-                });
+                //Get authenticated users name
+                var names = req.app.locals.displayName.split(" ");
+
+                //Create directory in student data using 'SurnameForename'
+                var studentDir = path.join(__dirname, '../studentdata/'); 
+                var userSaveDir = studentDir + names[1] + names[0];
 
                 //If file is uploaded, render feedback page and clear timeout
                 if (fs.existsSync(fileLocation)) {
                 
+                    txtFile = fileName.split('.')[0] + '.txt';
+                    //Path to where filed is saved
+                    userSavePath = userSaveDir + '/' + txtFile;
+
+                    //Check if user directory exists, create if not
+                    if (!fs.existsSync(userSaveDir)){  
+                        fs.mkdirSync(userSaveDir);    
+                    }
+                        
+                    fs.copyFile(fileLocation, userSavePath, function(err){
+                        if (err) {
+                           throw err;
+                        }
+                    });
+
+                    //Read file to display output
                     var fileContents = fs.readFileSync(fileLocation, function(err){
                         if(err){
                             throw err;

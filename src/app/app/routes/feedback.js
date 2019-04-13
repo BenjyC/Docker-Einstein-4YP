@@ -64,31 +64,36 @@ router.post('/', function(req, res, next) {
 
                 //If file is uploaded, render feedback page and clear timeout
                 if (fs.existsSync(fileLocation)) {
-                
-                    txtFile = fileName.split('.')[0] + '.txt';
-                    //Path to where filed is saved
-                    userSavePath = userSaveDir + '/' + txtFile;
-
-                    //Check if user directory exists, create if not
-                    if (!fs.existsSync(userSaveDir)){  
-                        fs.mkdirSync(userSaveDir);    
-                    }
-                        
-                    fs.copyFile(fileLocation, userSavePath, function(err){
-                        if (err) {
-                           throw err;
-                        }
-                    });
-
-                    //Read file to display output
-                    var fileContents = fs.readFileSync(fileLocation, function(err){
-                        if(err){
-                            throw err;
-                        };
-                    });
 
                     //Call file marker code and find out whether correct/incorrect
                     fm.checkForMarker(file, function(status, passRate){
+
+                        //If file is valid
+                        if (status != "invalid"){
+
+                            //Read file to display output
+                            var fileContents = fs.readFileSync(fileLocation, function(err){
+                                if(err){
+                                    throw err;
+                                };
+                            });
+
+                            txtFile = fileName.split('.')[0] + '.txt';
+                            //Path to where filed is saved
+                            userSavePath = userSaveDir + '/' + txtFile;
+
+                            //Check if user directory exists, create if not
+                            if (!fs.existsSync(userSaveDir)){  
+                                fs.mkdirSync(userSaveDir);    
+                            }
+
+                            //Copy file to user specific storage    
+                            fs.copyFile(fileLocation, userSavePath, function(err){
+                                if (err) {
+                                   throw err;
+                                }
+                            });
+                        }
                         
                         if (status == 'correct') {
                             res.render('feedback', { title: 'Upload Feedback', file: fileName, status: 'Correct', passRate:passRate, contents: fileContents});

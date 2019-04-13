@@ -37,8 +37,6 @@ async function checkForMarker(file, checkForMarkerCb){
 			var resultsArr = await getResults(file.name, files.length, markerDir);
 
 			if (resultsArr){
-
-				//['correct', 'correct', 'correct'] #1
 				var pass = 0;
 				for(var i=0;i<resultsArr.length;i++) {
 

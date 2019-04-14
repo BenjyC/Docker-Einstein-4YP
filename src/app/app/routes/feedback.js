@@ -33,13 +33,10 @@ router.post('/', function(req, res, next) {
     //Save to uploads directory
     form.on('fileBegin', function (name, file){
         if (file.name != ""){
-            tmpDir = path.join(__dirname, '../uploads/')
+            tmpDir = path.join(__dirname, '../uploads/');
             file.path = tmpDir + file.name;
         }
 
-        //Save recent upload to storage
-        //TODO save under specific student name
-        //../studentdata/ + user + /recent.txt
     });
 
     //Work with the file
@@ -47,7 +44,7 @@ router.post('/', function(req, res, next) {
 
         var fileName = file.name;
 
-        var filePath = path.join(__dirname, '../uploads/')
+        var filePath = path.join(__dirname, '../uploads/');
 
         if (fileName != ""){
             var uploadTimeout = setInterval(fileExists, 1000);
@@ -58,24 +55,46 @@ router.post('/', function(req, res, next) {
                 var filePath = path.join(__dirname, '../uploads/')
                 var fileLocation = filePath + fileName
 
-                saveDir = path.join(__dirname, '../studentdata/recent.txt');      
-                fs.copyFile(file.path, saveDir, function(err){
-                    if (err) {
-                        throw err;
-                    }
-                });
+                //Get authenticated users name
+                var email = req.app.locals.emailAddr
+                var user = email.substring(0, email.lastIndexOf('@')); 
+                var names = user.split('.');
+
+                //Create directory in student data 
+                var studentDir = path.join(__dirname, '../studentdata/'); 
+                var userSaveDir = studentDir + names[0] + names[1];
 
                 //If file is uploaded, render feedback page and clear timeout
                 if (fs.existsSync(fileLocation)) {
-                
-                    var fileContents = fs.readFileSync(fileLocation, function(err){
-                        if(err){
-                            throw err;
-                        };
-                    });
 
                     //Call file marker code and find out whether correct/incorrect
                     fm.checkForMarker(file, function(status, passRate){
+
+                        //If file is valid
+                        if (status != "invalid"){
+
+                            //Read file to display output
+                            var fileContents = fs.readFileSync(fileLocation, function(err){
+                                if(err){
+                                    throw err;
+                                };
+                            });
+
+                            //Path to where filed is saved
+                            userSavePath = userSaveDir + '/' + fileName;
+
+                            //Check if user directory exists, create if not
+                            if (!fs.existsSync(userSaveDir)){  
+                                fs.mkdirSync(userSaveDir);    
+                            }
+
+                            //Copy file to user specific storage    
+                            fs.copyFile(fileLocation, userSavePath, function(err){
+                                if (err) {
+                                   throw err;
+                                }
+                            });
+                        }
                         
                         if (status == 'correct') {
                             res.render('feedback', { title: 'Upload Feedback', file: fileName, status: 'Correct', passRate:passRate, contents: fileContents});

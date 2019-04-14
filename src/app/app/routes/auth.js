@@ -15,15 +15,15 @@ router.get('/logout', (req,res,next) => {
 
 //Authentication with Google
 router.get('/google', passport.authenticate('google', {
-	scope: ['profile'],
+	scope: ['email'],
 	accessType: 'offline',
 	approvalPrompt: 'force'
 }));
 
 //Callback route for Google redirect
 router.get('/google/redirect', passport.authenticate('google'), (req,res) => {
-	//console.log(req.user);
-	req.app.locals.displayName = req.user.displayName;
+	//Save user email in req.app.locals to use in feedback route
+	req.app.locals.emailAddr = req.user.emails[0].value;
 	res.redirect('/')
 });
 

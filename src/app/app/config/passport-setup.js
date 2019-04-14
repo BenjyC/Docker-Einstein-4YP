@@ -5,12 +5,12 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const keys = require('./keys.js');
 
 passport.serializeUser((user,done)=> {
-	done(null, user.displayName);
+	done(null, user.emails[0].value);
 });
 
 
-passport.deserializeUser((displayName,done)=> {
-	done(null, displayName);
+passport.deserializeUser((emailAddr,done)=> {
+	done(null, emailAddr);
 })
 
 passport.use(
@@ -19,8 +19,8 @@ passport.use(
 		callbackURL:'/auth/google/redirect',
 		clientID:keys.google.clientID,
 		clientSecret:keys.google.clientSecret
-	}, (accessToken, refreshToken, profile, done) => {
+	}, (accessToken, refreshToken, email, done) => {
 		//Passport callback function
-		done(null, profile)
+		done(null, email)
 	})
 )

@@ -56,11 +56,13 @@ router.post('/', function(req, res, next) {
                 var fileLocation = filePath + fileName
 
                 //Get authenticated users name
-                var names = req.app.locals.displayName.split(" ");
+                var email = req.app.locals.emailAddr
+                var user = email.substring(0, email.lastIndexOf('@')); 
+                var names = user.split('.');
 
-                //Create directory in student data using 'SurnameForename'
+                //Create directory in student data 
                 var studentDir = path.join(__dirname, '../studentdata/'); 
-                var userSaveDir = studentDir + names[1] + names[0];
+                var userSaveDir = studentDir + names[0] + names[1];
 
                 //If file is uploaded, render feedback page and clear timeout
                 if (fs.existsSync(fileLocation)) {
@@ -78,9 +80,8 @@ router.post('/', function(req, res, next) {
                                 };
                             });
 
-                            txtFile = fileName.split('.')[0] + '.txt';
                             //Path to where filed is saved
-                            userSavePath = userSaveDir + '/' + txtFile;
+                            userSavePath = userSaveDir + '/' + fileName;
 
                             //Check if user directory exists, create if not
                             if (!fs.existsSync(userSaveDir)){  

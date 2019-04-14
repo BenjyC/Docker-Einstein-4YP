@@ -5,7 +5,7 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  if(res.app.locals.displayName){
+  if(res.app.locals.emailAddr){
   	res.render('index', { title: 'Docker Einstein Upload Page' });
   }
   else {

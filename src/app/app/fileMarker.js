@@ -37,6 +37,8 @@ async function checkForMarker(file, checkForMarkerCb){
 			var resultsArr = await getResults(file.name, files.length, markerDir);
 
 			if (resultsArr){
+
+				//['correct', 'correct', 'correct'] #1
 				var pass = 0;
 				for(var i=0;i<resultsArr.length;i++) {
 
@@ -69,21 +71,20 @@ function executeFile(filename){
 	//Get path to uploaded file
 	var uploadPath = path.join(__dirname, '/uploads/');
 
-	//Find specific marker
-	var markerDir = markersPath + filename;
-
 	//Get file extension
 	var fileExt = filename.split('.').pop();
+
+	var fileUpload = uploadPath + filename;
+
+	//Make file executable
+	fs.chmodSync(fileUpload, 777);
 
 	return new Promise(function(resolve,reject){
 
 		//If Python file
-		if (fileExt == 'py') {
+		if (fileExt == 'py'){
 
-			//Specific path to file
-			var pyUpload = uploadPath + filename;
-
-			const child = execFile('python', [pyUpload], (err,stdout,stderr) => {
+			const child = execFile('python', [fileUpload], (err,stdout,stderr) => {
 				if (err) reject (err);
 
 				else resolve(stdout);

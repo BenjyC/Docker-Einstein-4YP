@@ -66,7 +66,7 @@ async function checkForMarker(file, checkForMarkerCb){
 	}	
 };
 
-function executeFile(filename){
+function executeFile(filename, stdin = ""){
 
 	//Get path to uploaded file
 	var uploadPath = path.join(__dirname, '/uploads/');
@@ -83,12 +83,25 @@ function executeFile(filename){
 
 		//If Python file
 		if (fileExt == 'py'){
+			
+			//Run test with input
+			if (stdin != ""){
+				const child = execFile('python', [fileUpload, stdin], (err,stdout,stderr) => {
+					if (err) reject (err);
 
-			const child = execFile('python', [fileUpload], (err,stdout,stderr) => {
-				if (err) reject (err);
+					else resolve(stdout);
+				});
+			}
 
-				else resolve(stdout);
-			});	
+			//Run test without input
+			else{
+				const child = execFile('python', [fileUpload], (err,stdout,stderr) => {
+					if (err) reject (err);
+
+					else resolve(stdout);
+				});
+			}
+					
 		}
 
 		//If shell script
@@ -113,6 +126,7 @@ async function getResults(filename, fileLength, markerDir) {
 
 	for(var i=1; i<=fileLength; i++) {
 		var sampleOut = markerDir + '/test' + i + '/stdout.txt';
+		var sampleIn = markerDir + '/test' + i + '/stdin.txt';
 
 		//Grab marker stdout.txt
 		var markerOut = fs.readFileSync(sampleOut, 'utf-8', function(err){
@@ -121,9 +135,15 @@ async function getResults(filename, fileLength, markerDir) {
 			};
 		});
 
+		var stdin = "";
+		//Check if test case has stdin
+		if (fs.existsSync(sampleIn)) {
+			stdin = sampleIn;
+		}
+
 		//Run the file and wait for the output
-		var fileOut = await executeFile(filename);
-			
+		var fileOut = await executeFile(filename,stdin);
+
 		if (markerOut == fileOut){
 			resultsArr.push('correct');
 		}

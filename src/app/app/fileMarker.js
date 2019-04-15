@@ -37,6 +37,8 @@ async function checkForMarker(file, checkForMarkerCb){
 			var resultsArr = await getResults(file.name, files.length, markerDir);
 
 			if (resultsArr){
+
+				//['correct', 'correct', 'correct'] #1
 				var pass = 0;
 				for(var i=0;i<resultsArr.length;i++) {
 
@@ -64,30 +66,42 @@ async function checkForMarker(file, checkForMarkerCb){
 	}	
 };
 
-function executeFile(filename){
+function executeFile(filename, stdin = ""){
 
 	//Get path to uploaded file
 	var uploadPath = path.join(__dirname, '/uploads/');
 
-	//Find specific marker
-	var markerDir = markersPath + filename;
-
 	//Get file extension
 	var fileExt = filename.split('.').pop();
+
+	var fileUpload = uploadPath + filename;
+
+	//Make file executable
+	fs.chmodSync(fileUpload, 777);
 
 	return new Promise(function(resolve,reject){
 
 		//If Python file
-		if (fileExt == 'py') {
+		if (fileExt == 'py'){
+			
+			//Run test with input
+			if (stdin != ""){
+				const child = execFile('python', [fileUpload, stdin], (err,stdout,stderr) => {
+					if (err) reject (err);
 
-			//Specific path to file
-			var pyUpload = uploadPath + filename;
+					else resolve(stdout);
+				});
+			}
 
-			const child = execFile('python', [pyUpload], (err,stdout,stderr) => {
-				if (err) reject (err);
+			//Run test without input
+			else{
+				const child = execFile('python', [fileUpload], (err,stdout,stderr) => {
+					if (err) reject (err);
 
-				else resolve(stdout);
-			});	
+					else resolve(stdout);
+				});
+			}
+					
 		}
 
 		//If shell script
@@ -112,6 +126,7 @@ async function getResults(filename, fileLength, markerDir) {
 
 	for(var i=1; i<=fileLength; i++) {
 		var sampleOut = markerDir + '/test' + i + '/stdout.txt';
+		var sampleIn = markerDir + '/test' + i + '/stdin.txt';
 
 		//Grab marker stdout.txt
 		var markerOut = fs.readFileSync(sampleOut, 'utf-8', function(err){
@@ -120,9 +135,15 @@ async function getResults(filename, fileLength, markerDir) {
 			};
 		});
 
+		var stdin = "";
+		//Check if test case has stdin
+		if (fs.existsSync(sampleIn)) {
+			stdin = sampleIn;
+		}
+
 		//Run the file and wait for the output
-		var fileOut = await executeFile(filename);
-			
+		var fileOut = await executeFile(filename,stdin);
+
 		if (markerOut == fileOut){
 			resultsArr.push('correct');
 		}

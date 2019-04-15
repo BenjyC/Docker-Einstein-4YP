@@ -9,8 +9,7 @@ var fm = require('../fileMarker.js');
 
 /* GET feedback page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Docker Einstein Upload Page' });
-  //res.render('feedback', { title: 'No file provided' });
+  res.redirect('/');
 
 });
 
@@ -30,10 +29,21 @@ router.post('/', function(req, res, next) {
 
     });
 
+    //Get authenticated users name
+    var email = req.app.locals.emailAddr
+    var user = email.substring(0, email.lastIndexOf('@')); 
+    var names = user.split('.');
+
     //Save to uploads directory
     form.on('fileBegin', function (name, file){
         if (file.name != ""){
-            tmpDir = path.join(__dirname, '../uploads/');
+
+            tmpDir = path.join(__dirname, '../uploads/' + names[0] + names[1] + '/');
+            if(!fs.existsSync(tmpDir)){
+                fs.mkdirSync(tmpDir);
+            }
+
+            //Set path of file to ../uploads/user/filename
             file.path = tmpDir + file.name;
         }
 
@@ -44,21 +54,14 @@ router.post('/', function(req, res, next) {
 
         var fileName = file.name;
 
-        var filePath = path.join(__dirname, '../uploads/');
-
         if (fileName != ""){
+
             var uploadTimeout = setInterval(fileExists, 1000);
 
             //Check if file has been uploaded
             function fileExists() {
-    
-                var filePath = path.join(__dirname, '../uploads/')
-                var fileLocation = filePath + fileName
 
-                //Get authenticated users name
-                var email = req.app.locals.emailAddr
-                var user = email.substring(0, email.lastIndexOf('@')); 
-                var names = user.split('.');
+                var fileLocation = file.path;
 
                 //Create directory in student data 
                 var studentDir = path.join(__dirname, '../studentdata/'); 
@@ -94,6 +97,8 @@ router.post('/', function(req, res, next) {
                                    throw err;
                                 }
                             });
+
+                            fs.unlinkSync(fileLocation);
                         }
                         
                         if (status == 'correct') {
@@ -113,7 +118,7 @@ router.post('/', function(req, res, next) {
                     });
                 }
             }      
-        }   
+        }  
     });
 });
 

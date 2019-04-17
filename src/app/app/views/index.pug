@@ -3,15 +3,23 @@ extends layout
 block content
   h1= title
 
-  br 
-  br 
-  br 
-
-  p(style="font-size:18px") Please upload a file to be marked
-
   br
   br
 
-  form(action='/feedback', enctype='multipart/form-data', method='POST')
-    input(type='file', name='upload')
-    input(type='submit', value='Upload', class='btn btn-primary')
+  script(src='/stylesheets/dropzone.js')
+
+  div(id="dropzone")
+    form(id='dz-upload' class='dropzone needsclick dz-clickable' action='/feedback' enctype='multipart/form-data' method='POST')
+
+  script.
+    Dropzone.options.dzUpload = {
+      paramName: "upload",
+      init: function(){
+        this.on("success", function(){
+          window.location.href = ("/feedback");
+        });
+      }
+    }
+
+
+  

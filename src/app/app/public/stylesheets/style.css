@@ -14,6 +14,15 @@ a {
   color: #00B7FF;
 }
 
+h1 {
+    font-family:'ZCOOL QingKe HuangYou', cursive;
+    font-size: 50px;
+}
+
+pre {
+    text-align: left;
+}
+
 .btn-file {
 	position: relative;
 	overflow: hidden;

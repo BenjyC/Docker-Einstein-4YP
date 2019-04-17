@@ -18,13 +18,11 @@ block content
   p(style="color:blue;") Your upload file is: #{file}
 
   if contents
-    button(class="btn" onclick="displayFile()") Show File 
-    br 
-    p(id="showFile" style="display:none;") <br /> #{contents} 
-
+    pre
+      code(class="python") #{contents}
   br
 
-  button(class="btn btn-primary" onclick="move()") Upload Another File
+  button(class="btn btn-primary" onclick="move()") Upload Page
 
   script.
     function move() {
@@ -34,4 +32,6 @@ block content
     function displayFile() {
       document.getElementById('showFile').style.display = 'block';
     }
+
+    src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.0/prism.min.js"
 

@@ -23,27 +23,6 @@ pre {
     text-align: left;
 }
 
-.btn-file {
-	position: relative;
-	overflow: hidden;
-}
-
-.btn-file input[type=file] {
-	position: absolute;
-    top: 0;
-    right: 0;
-    min-width: 100%;
-    min-height: 100%;
-    font-size: 100px;
-    text-align: right;
-    filter: alpha(opacity=0);
-    opacity: 0;
-    outline: none;
-    background: white;
-    cursor: inherit;
-    display: block;
-}
-
 .vertical-center {
     min-height: 50%;
     min-height: 50vh;
@@ -70,4 +49,9 @@ pre {
     -webkit-box-shadow: 0px 10px 10px grey;
     box-shadow: 0px 10px 10px grey;
     min-width: 75%;
+}
+
+#dz-upload {
+    background: linear-gradient(#777777, #9b9b9b);
+    font-size: 20px;
 }

@@ -8,18 +8,25 @@ block content
 
   script(src='/stylesheets/dropzone.js')
 
-  div(id="dropzone")
-    form(id='dz-upload' class='dropzone needsclick dz-clickable' action='/feedback' enctype='multipart/form-data' method='POST')
+  form(id='dz-upload' class='dropzone' action='/feedback' enctype='multipart/form-data' method='POST' tabindex='1')
 
   script.
     Dropzone.options.dzUpload = {
       paramName: "upload",
+      dictDefaultMessage: "Drag and drop files here, or click to browse",
       init: function(){
         this.on("success", function(){
           window.location.href = ("/feedback");
         });
       }
     }
+
+    document.body.addEventListener("keyup", function(even){
+      if(event.keyCode === 13){
+        event.preventDefault();
+        document.getElementById("dz-upload").click();
+      }
+    });
 
 
   

@@ -88,7 +88,7 @@ router.post('/', function(req, res, next) {
                     fm.checkForMarker(file, userName, function(status, passRate){
 
                         //If file is valid
-                        if (status != "invalid"){
+                        if (status != 'Invalid upload file name'){
 
                             //Read file to display output
                             var fileContents = fs.readFileSync(fileLocation, function(err){
@@ -111,28 +111,27 @@ router.post('/', function(req, res, next) {
                                    throw err;
                                 }
                             });
+                        }
 
-                            var fileCopiedRetry = setInterval(fileCopied, 1000);
+                        var fileCopiedRetry = setInterval(fileCopied, 1000);
 
-                            //Wait until file has been copied
-                            function fileCopied(){
+                        //Wait until file has been copied
+                        function fileCopied(){
 
-                                //When file has been copied, delete from uploads
-                                if (fs.existsSync(userSavePath)){
+                            //When file has been copied, delete from uploads
+                            if (fs.existsSync(userSavePath)){
+    
+                                fs.unlinkSync(fileLocation);
+
+                                //Set variables for rendering template
+                                req.app.locals.fileName = fileName;
+                                req.app.locals.status = status;
+                                req.app.locals.passRate = passRate;
+                                req.app.locals.fileContents = fileContents;
                                 
-                                    fs.chmodSync(userSavePath, 777);
-                                    fs.unlinkSync(fileLocation);
-
-                                    //Set variables for template render
-                                    req.app.locals.fileName = fileName;
-                                    req.app.locals.status = status;
-                                    req.app.locals.passRate = passRate;
-                                    req.app.locals.fileContents = fileContents;
-                                    
-                                    clearInterval(fileCopiedRetry);
-                                    return res.status(200).send('');
-                                };
-                            }
+                                clearInterval(fileCopiedRetry);
+                                return res.status(200).end('File have been uploaded');
+                            };
                         }
                     });
 

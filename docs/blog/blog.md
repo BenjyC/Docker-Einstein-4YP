@@ -197,6 +197,38 @@ Bug fixing
 - ~~Uploaded file being copied elsewhere before upload is complete~~ (fixed)
 
 
+## Blog Entry 016 - 22/04/2019
+
+User uploads are now stored correcltly under a users name retrieved via their email. *'ben.coleman5@mail.dcu.ie'* uses a *'bencoleman5'* directory which retains
+the number element to ensure uniqueness but is also a simple forenameSurname setup for easy access and file locating. 
+This detail of a user is retrieved when a user logs in and is not stored in any database. This is to avoid unnecessary additional components that may hinder the
+extensible design of a containerised application, and more importantly because it was not needed. Users have a directory created if they do not have one, and their
+files are consistently stored in that location. We do not need to store user information about previous interactions.
+
+As per the last blog posts todo list:
+
+~~Finish Authentication~~
+- ~~Ensure that authentication is completed ASAP so that user uploads can be stored in revelant path.~~ (implemented)
+
+~~Standard input to test cases~~
+- ~~There needs to be test cases that read in standard input as up until now only uploads without any input have been used.~~ (Python scripts can now accept stdin)
+
+~~Front end styling~~
+- ~~The front end UI needs some updating to display more information to a user about test case specific feedback.~~ (DropZone upload functionality + test case results are displayed)
+
+Bug fixing
+- ~~Ensuring the uploads directory is user specific (will work with authenticated users name).~~ (files are now removed from uploads dir after copy to data dir)
+- ~~Shell script functionality not working with Promises~~ (fixed)
+- ~~Uploaded file being copied elsewhere before upload is complete~~ (fixed)
+
+The system is largely functional at this stage of the development lifecycle. Next steps will include:
+
+- Further styling (if required)
+- Documentation
+- Further testing
+- Finishing all deliverables
+
+
 ---
 
 This week, I learned how to include

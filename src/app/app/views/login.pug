@@ -1,13 +1,17 @@
 extends layout
 
 block content
-  h1= title
+  h1= title1
+  
+  hr(style="width:50%")
+
+  h1= title2
 
   br
   br
   br
 
-  a(class='btn btn-primary' href='/auth/google') Login with Google
+  a(class='btn btn-info btn-lg' id='loginButton' href='/auth/google') Login
 
   br
 

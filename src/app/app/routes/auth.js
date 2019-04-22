@@ -5,7 +5,7 @@ const passport = require('passport');
 
 /* GET users listing. */
 router.get('/login', (req,res,next) => {
-	res.render('login', { title: 'Docker Einstein Authentication' });
+	res.render('login', { title1: 'Docker Einstein', title2: 'Authentication' });
 });
 
 //Authentication logout

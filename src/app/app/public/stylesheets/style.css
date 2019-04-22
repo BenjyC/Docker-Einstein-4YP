@@ -15,12 +15,17 @@ a {
 }
 
 h1 {
-    font-family:'ZCOOL QingKe HuangYou', cursive;
+    font-family: 'Montserrat', sans-serif;
+    /*font-family:'ZCOOL QingKe HuangYou', cursive;*/
     font-size: 50px;
 }
 
 pre {
     text-align: left;
+}
+
+p {
+    font-family: 'Montserrat', sans-serif;
 }
 
 .vertical-center {
@@ -55,3 +60,25 @@ pre {
     background: linear-gradient(#777777, #9b9b9b);
     font-size: 20px;
 }
+
+#outputDiv > :nth-child(even) {
+    width:100%;
+    background-color: #b5b5b5;
+
+}
+
+#outputDiv > :nth-child(odd) {
+    width:100%;
+    background-color: #cccccc;
+
+}
+
+#tests {
+    border-radius: 10px;
+    padding-top: 5px;
+}
+
+#redirectButton {
+    margin-top: 20px;
+}
+

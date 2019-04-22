@@ -20,13 +20,30 @@ block content
   if contents
     pre
       code(class="python") #{contents}
-  br
 
-  button(class="btn btn-primary" onclick="move()") Upload Page
+  hr
+
+  if output
+    - var i = 1;
+    div(id="outputDiv") 
+      while i < output.length+1      
+        div.container(id="tests")
+          p(style="font-size:20px")= 'Test ' + i
+          div.row
+            div(class="col-md-6")
+              p(style="color:#007cc9;font-size:20px")= 'Expected Output: '
+              p(id="eOutput")= output[i-1][1]
+            div(class="col-md-6")
+              p(style="color:#007cc9;font-size:20px")= 'Actual Output: ' 
+              p(id="aOutput")= output[i-1][0]
+        
+        - i++
+
+  button(class="btn btn-primary" id="redirectButton" onclick="move()") Upload Page
 
   script.
     function move() {
-      window.location.href = '/'
+      window.location.href = '/';
     }
 
     function displayFile() {

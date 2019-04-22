@@ -34,7 +34,9 @@ async function checkForMarker(file, user, checkForMarkerCb){
 
 		if (typeof files != undefined) {
 
-			var resultsArr = await getResults(file.name, files.length, markerDir, user);
+			var details = await getResults(file.name, files.length, markerDir, user);
+			var resultsArr = details[0];
+			var outputsArr = details[1];
 
 			if (resultsArr){
 
@@ -49,11 +51,11 @@ async function checkForMarker(file, user, checkForMarkerCb){
 				var passRate = pass + '/' + files.length;
 
 				if (pass == resultsArr.length){
-					checkForMarkerCb('Correct', passRate);
+					checkForMarkerCb('Correct', passRate, outputsArr);
 				}
 
 				else {
-					checkForMarkerCb('Incorrect', passRate);
+					checkForMarkerCb('Incorrect', passRate, outputsArr);
 				}
 					
 			}
@@ -126,6 +128,7 @@ function executeFile(filename, stdin = "", user){
 async function getResults(filename, fileLength, markerDir, user) {
 
 	resultsArr = [];
+	outputsArr = []; 
 
 	for(var i=1; i<=fileLength; i++) {
 		var sampleOut = markerDir + '/test' + i + '/stdout.txt';
@@ -154,10 +157,12 @@ async function getResults(filename, fileLength, markerDir, user) {
 		else {
 			resultsArr.push('Incorrect');
 		}
+		
+		outputsArr.push([fileOut,markerOut]);
 	}
 
 	if (resultsArr.length == fileLength) {
-		return resultsArr;
+		return [resultsArr, outputsArr];
 	}
 }
 

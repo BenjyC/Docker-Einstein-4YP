@@ -10,9 +10,17 @@ var fm = require('../fileMarker.js');
 /* GET feedback page. */
 router.get('/', function(req, res, next) {
     
-    //If template variables exist, DropZone is finished so render page
+    // If template variables exist, DropZone is finished so render page
+    // with variables returned from fileMarker.js
     if (req.app.locals.status) {
-        res.render('feedback', { title: 'Upload Feedback', file: req.app.locals.fileName, status: req.app.locals.status, passRate:req.app.locals.passRate, contents: req.app.locals.fileContents});
+        res.render('feedback', { 
+            title: 'Upload Feedback', 
+            file: req.app.locals.fileName, 
+            status: req.app.locals.status, 
+            passRate:req.app.locals.passRate, 
+            contents: req.app.locals.fileContents, 
+            output: req.app.locals.output
+        });
     }
 
     //If no variables exist, user is making plain GET request to feedback, therefore redirect to root
@@ -85,7 +93,7 @@ router.post('/', function(req, res, next) {
                     fs.chmodSync(fileLocation, 777);
 
                     //Call file marker code and find out whether correct/incorrect
-                    fm.checkForMarker(file, userName, function(status, passRate){
+                    fm.checkForMarker(file, userName, function(status, passRate, output){
 
                         //If file is valid
                         if (status != 'Invalid upload file name'){
@@ -128,9 +136,10 @@ router.post('/', function(req, res, next) {
                                 req.app.locals.status = status;
                                 req.app.locals.passRate = passRate;
                                 req.app.locals.fileContents = fileContents;
+                                req.app.locals.output = output;
                                 
                                 clearInterval(fileCopiedRetry);
-                                return res.status(200).end('File have been uploaded');
+                                return res.status(200).end('File has been uploaded');
                             };
                         }
                     });

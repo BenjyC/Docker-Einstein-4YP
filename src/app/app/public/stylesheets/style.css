@@ -1,22 +1,16 @@
 body {
-    padding: 50px;
-    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
     background: linear-gradient(
         rgba(189, 195, 199, 1), 
         rgba(238, 242, 243, 1));
+    margin:0;
 }
 
 html, body {
     min-height: 100%;
-}
-
-a {
-  color: #00B7FF;
+    font-family: 'Montserrat', sans-serif;
 }
 
 h1 {
-    font-family: 'Montserrat', sans-serif;
-    /*font-family:'ZCOOL QingKe HuangYou', cursive;*/
     font-size: 50px;
 }
 
@@ -24,9 +18,7 @@ pre {
     text-align: left;
 }
 
-p {
-    font-family: 'Montserrat', sans-serif;
-}
+/* Main Content CSS */
 
 .vertical-center {
     min-height: 50%;
@@ -54,12 +46,21 @@ p {
     -webkit-box-shadow: 0px 10px 10px grey;
     box-shadow: 0px 10px 10px grey;
     min-width: 75%;
+    margin-top: 7%;
 }
+
+/* Upload Page CSS */
 
 #dz-upload {
     background: linear-gradient(#777777, #9b9b9b);
     font-size: 20px;
 }
+
+.fa-file-upload {
+    padding-left: 20px;
+}
+
+/* Feedback Page CSS */
 
 #outputDiv > :nth-child(even) {
     width:100%;
@@ -80,5 +81,23 @@ p {
 
 #redirectButton {
     margin-top: 20px;
+}
+
+.fa-user-check {
+    font-size: 50px;
+}
+
+/* Navbar CSS */
+
+.navbar {
+    background: linear-gradient(#6f6f6f, #171717);
+}
+
+.navbar a {
+    font-size: 25px;
+}
+
+.fa-lightbulb {
+    padding-left: 5px;
 }
 

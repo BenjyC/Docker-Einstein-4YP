@@ -71,16 +71,13 @@ function executeFile(filename, stdin = "", user){
 
 	//Get path to uploaded file
 	var uploadPath = path.join(__dirname, '/uploads/');
-	var userUpload = uploadPath + '/' + user;
+	var userUpload = uploadPath + user;
 
 	//Get file extension
 	var fileExt = filename.split('.').pop();
 
 	//Path to specific file
 	var fileUpload = userUpload + '/' + filename;
-
-	/*//Make file executable
-	fs.chmodSync(fileUpload, 777);*/
 
 	return new Promise(function(resolve,reject){
 
@@ -119,8 +116,9 @@ function executeFile(filename, stdin = "", user){
 				else resolve(stdout);
 			});
 		}
+
 	}).catch((error) => {
-		assert.isNotOk(error, 'Promise Error');
+		console.log(error, 'Promise Error');
 	});
 }
 

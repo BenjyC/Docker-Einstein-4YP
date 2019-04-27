@@ -34,16 +34,17 @@ async function checkForMarker(file, user, checkForMarkerCb){
 
 		if (typeof files != undefined) {
 
-			var details = await getResults(file.name, files.length, markerDir, user);
-			var resultsArr = details[0];
-			var outputsArr = details[1];
+			//Get results array which uses format [Status, ActualFileOutput, ExpectedFileOutput] per execution
+			//Full results array will contain several of the triplets above
+			var resultsArr = await getResults(file.name, files.length, markerDir, user);
 
 			if (resultsArr){
 
 				var pass = 0;
 				for(var i=0;i<resultsArr.length;i++) {
 
-					if (resultsArr[i] == "Correct"){
+					//Check status
+					if (resultsArr[i][0] == "Correct"){
 						pass += 1;
 					}
 				}
@@ -51,11 +52,11 @@ async function checkForMarker(file, user, checkForMarkerCb){
 				var passRate = pass + '/' + files.length;
 
 				if (pass == resultsArr.length){
-					checkForMarkerCb('Correct', passRate, outputsArr);
+					checkForMarkerCb('Correct', passRate, resultsArr);
 				}
 
 				else {
-					checkForMarkerCb('Incorrect', passRate, outputsArr);
+					checkForMarkerCb('Incorrect', passRate, resultsArr);
 				}
 					
 			}
@@ -149,18 +150,17 @@ async function getResults(filename, fileLength, markerDir, user) {
 		var fileOut = await executeFile(filename,stdin,user);
 
 		if (markerOut == fileOut){
-			resultsArr.push('Correct');
+			resultsArr.push(['Correct', fileOut, markerOut]);
 		}
 
 		else {
-			resultsArr.push('Incorrect');
+			resultsArr.push(['Incorrect', fileOut, markerOut]);
 		}
 		
-		outputsArr.push([fileOut,markerOut]);
 	}
 
 	if (resultsArr.length == fileLength) {
-		return [resultsArr, outputsArr];
+		return resultsArr;
 	}
 }
 

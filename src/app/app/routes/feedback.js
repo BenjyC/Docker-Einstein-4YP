@@ -19,7 +19,7 @@ router.get('/', function(req, res, next) {
             status: req.app.locals.status, 
             passRate:req.app.locals.passRate, 
             contents: req.app.locals.fileContents, 
-            output: req.app.locals.output
+            results: req.app.locals.results
         });
     }
 
@@ -93,7 +93,7 @@ router.post('/', function(req, res, next) {
                     fs.chmodSync(fileLocation, 777);
 
                     //Call file marker code and find out whether correct/incorrect
-                    fm.checkForMarker(file, userName, function(status, passRate, output){
+                    fm.checkForMarker(file, userName, function(status, passRate, results){
 
                         //If file is valid
                         if (status != 'Invalid upload file name'){
@@ -136,7 +136,7 @@ router.post('/', function(req, res, next) {
                                 req.app.locals.status = status;
                                 req.app.locals.passRate = passRate;
                                 req.app.locals.fileContents = fileContents;
-                                req.app.locals.output = output;
+                                req.app.locals.results = results;
                                 
                                 clearInterval(fileCopiedRetry);
                                 return res.status(200).end('File has been uploaded');

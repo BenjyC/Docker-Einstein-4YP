@@ -151,6 +151,84 @@ Next steps:
 - ~~Styling~~
 - Further testing
 
+## Blog Entry 014 - 02/04/2019
+
+Student uploads will be stored in a text file under their name in a parent directory of all student data. Once authentication is implemented, the logged in student
+name will be used to determine this path and ensure a students file is stored under their own name. 
+
+Further testing has been implemented, along with updates for the current Mocha unit tests. Nightwatch.js testing framework has been integrated, along with some
+selenium based browser tests for functionality such as uploading and redirecting. 
+
+A basic Nightwatch test execution can be seen below. This particular test checks if the system behaves as expected when no file is uploaded:
+
+![NWTest1](https://gitlab.computing.dcu.ie/colemab5/2019-ca400-colemab5/raw/master/docs/blog/images/NWTest1.png)
+
+I have also been working on having the system look through multiple test cases for an uploaded file during marking and check if any fail rather than just having a 
+single test case. This is a still a WIP due to issues with Nodejs being asynchronous and test cases not being checked in the correct order. Once that is completed,
+I will ensure tests can work with stdin.txt as well, although these are two minor features to look into.
+
+The next step in finishing off the project will be implementing the Google Authentication and completing the checklist I had made a few weeks back.
+
+Next steps:
+- Authentication
+- ~~Storing student uploads~~ (just need to add student name after auth)
+- ~~Styling~~
+- ~~Further testing~~ (WIP as more tests can be added)
+
+## Blog Entry 015 - 12/04/2019
+
+The Authentication is working on feat/auth using OAuth for DCU email addresses. I will use the details on an authenticated user to store their upload under their name,
+and once this is completed the authentication will be part of master.
+
+After meeting with supervisor to discuss progress so far, we came up with the next few steps to improve the system.
+
+Finish Authentication
+- Ensure that authentication is completed ASAP so that user uploads can be stored in revelant path.
+
+Standard input to test cases
+- There needs to be test cases that read in standard input as up until now only uploads without any input have been used.
+
+Front end styling
+- The front end UI needs some updating to display more information to a user about test case specific feedback.
+
+Bug fixing
+- Ensuring the uploads directory is user specific (will work with authenticated users name).
+- Shell script functionality not working with Promises
+- ~~Uploaded file being copied elsewhere before upload is complete~~ (fixed)
+
+
+## Blog Entry 016 - 22/04/2019
+
+User uploads are now stored correcltly under a users name retrieved via their email. *'ben.coleman5@mail.dcu.ie'* uses a *'bencoleman5'* directory which retains
+the number element to ensure uniqueness but is also a simple forenameSurname setup for easy access and file locating. 
+This detail of a user is retrieved when a user logs in and is not stored in any database. This is to avoid unnecessary additional components that may hinder the
+extensible design of a containerised application, and more importantly because it was not needed. Users have a directory created if they do not have one, and their
+files are consistently stored in that location. We do not need to store user information about previous interactions.
+
+As per the last blog posts todo list:
+
+~~Finish Authentication~~
+- ~~Ensure that authentication is completed ASAP so that user uploads can be stored in revelant path.~~ (implemented)
+
+~~Standard input to test cases~~
+- ~~There needs to be test cases that read in standard input as up until now only uploads without any input have been used.~~ (Python scripts can now accept stdin)
+
+~~Front end styling~~
+- ~~The front end UI needs some updating to display more information to a user about test case specific feedback.~~ (DropZone upload functionality + test case results are displayed)
+
+Bug fixing
+- ~~Ensuring the uploads directory is user specific (will work with authenticated users name).~~ (files are now removed from uploads dir after copy to data dir)
+- ~~Shell script functionality not working with Promises~~ (fixed)
+- ~~Uploaded file being copied elsewhere before upload is complete~~ (fixed)
+
+The system is largely functional at this stage of the development lifecycle. Next steps will include:
+
+- Further styling (if required)
+- Documentation
+- Further testing
+- Finishing all deliverables
+
+
 ---
 
 This week, I learned how to include

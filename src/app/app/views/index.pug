@@ -17,7 +17,9 @@ block content
       dictDefaultMessage: "Drag and drop files here, or click to browse",
       init: function(){
         this.on("success", function(){
-          window.location.href = ("/feedback");
+          window.setTimeout(function(){
+            window.location.href = "/feedback"
+          },1000);
         });
       }
     }

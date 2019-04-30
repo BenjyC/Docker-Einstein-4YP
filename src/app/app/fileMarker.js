@@ -22,7 +22,7 @@ function readdirAsync(path) {
   });
 }
 
-async function checkForMarker(file, checkForMarkerCb){
+async function checkForMarker(file, user, checkForMarkerCb){
 	
 	//Find specific marker
 	var markerDir = markersPath + file.name;
@@ -34,15 +34,17 @@ async function checkForMarker(file, checkForMarkerCb){
 
 		if (typeof files != undefined) {
 
-			var resultsArr = await getResults(file.name, files.length, markerDir);
+			//Get results array which uses format [Status, ActualFileOutput, ExpectedFileOutput] per execution
+			//Full results array will contain several of the triplets above
+			var resultsArr = await getResults(file.name, files.length, markerDir, user);
 
 			if (resultsArr){
 
-				//['correct', 'correct', 'correct'] #1
 				var pass = 0;
 				for(var i=0;i<resultsArr.length;i++) {
 
-					if (resultsArr[i] == "correct"){
+					//Check status
+					if (resultsArr[i][0] == "Correct"){
 						pass += 1;
 					}
 				}
@@ -50,11 +52,11 @@ async function checkForMarker(file, checkForMarkerCb){
 				var passRate = pass + '/' + files.length;
 
 				if (pass == resultsArr.length){
-					checkForMarkerCb('correct', passRate);
+					checkForMarkerCb('Correct', passRate, resultsArr);
 				}
 
 				else {
-					checkForMarkerCb('incorrect', passRate);
+					checkForMarkerCb('Incorrect', passRate, resultsArr);
 				}
 					
 			}
@@ -62,22 +64,21 @@ async function checkForMarker(file, checkForMarkerCb){
 	}
 
 	else {
-		checkForMarkerCb('invalid');
+		checkForMarkerCb('Invalid upload file name');
 	}	
 };
 
-function executeFile(filename, stdin = ""){
+function executeFile(filename, stdin = "", user){
 
 	//Get path to uploaded file
 	var uploadPath = path.join(__dirname, '/uploads/');
+	var userUpload = uploadPath + user;
 
 	//Get file extension
 	var fileExt = filename.split('.').pop();
 
-	var fileUpload = uploadPath + filename;
-
-	//Make file executable
-	fs.chmodSync(fileUpload, 777);
+	//Path to specific file
+	var fileUpload = userUpload + '/' + filename;
 
 	return new Promise(function(resolve,reject){
 
@@ -110,19 +111,23 @@ function executeFile(filename, stdin = ""){
 			//Shell execution
 			var shFile = './' + filename;
 
-			const child = exec(shFile, {cwd: uploadPath}, (err,stdout,stderr) => {
+			const child = exec(shFile, {cwd: userUpload}, (err,stdout,stderr) => {
 				if (err) reject (err)
 				
 				else resolve(stdout);
 			});
 		}
+
+	}).catch((error) => {
+		console.log(error, 'Promise Error');
 	});
 }
 
 
-async function getResults(filename, fileLength, markerDir) {
+async function getResults(filename, fileLength, markerDir, user) {
 
 	resultsArr = [];
+	outputsArr = []; 
 
 	for(var i=1; i<=fileLength; i++) {
 		var sampleOut = markerDir + '/test' + i + '/stdout.txt';
@@ -142,15 +147,16 @@ async function getResults(filename, fileLength, markerDir) {
 		}
 
 		//Run the file and wait for the output
-		var fileOut = await executeFile(filename,stdin);
+		var fileOut = await executeFile(filename,stdin,user);
 
 		if (markerOut == fileOut){
-			resultsArr.push('correct');
+			resultsArr.push(['Correct', fileOut, markerOut]);
 		}
 
 		else {
-			resultsArr.push('incorrect');
+			resultsArr.push(['Incorrect', fileOut, markerOut]);
 		}
+		
 	}
 
 	if (resultsArr.length == fileLength) {

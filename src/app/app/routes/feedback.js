@@ -9,7 +9,25 @@ var fm = require('../fileMarker.js');
 
 /* GET feedback page. */
 router.get('/', function(req, res, next) {
-  res.redirect('/');
+    
+    // If template variables exist, DropZone is finished so render page
+    // with variables returned from fileMarker.js
+    if (req.app.locals.status) {
+        res.render('feedback', { 
+            title: 'Upload Feedback', 
+            file: req.app.locals.fileName, 
+            status: req.app.locals.status, 
+            passRate:req.app.locals.passRate, 
+            contents: req.app.locals.fileContents, 
+            results: req.app.locals.results
+        });
+    }
+
+    //If no variables exist, user is making plain GET request to feedback, therefore redirect to root
+    else {
+        res.redirect('/');
+    }
+  
 
 });
 
@@ -33,12 +51,13 @@ router.post('/', function(req, res, next) {
     var email = req.app.locals.emailAddr
     var user = email.substring(0, email.lastIndexOf('@')); 
     var names = user.split('.');
+    var userName = names[0] + names[1];
 
     //Save to uploads directory
     form.on('fileBegin', function (name, file){
         if (file.name != ""){
 
-            tmpDir = path.join(__dirname, '../uploads/' + names[0] + names[1] + '/');
+            tmpDir = path.join(__dirname, '../uploads/' + userName + '/');
             if(!fs.existsSync(tmpDir)){
                 fs.mkdirSync(tmpDir);
             }
@@ -65,16 +84,19 @@ router.post('/', function(req, res, next) {
 
                 //Create directory in student data 
                 var studentDir = path.join(__dirname, '../studentdata/'); 
-                var userSaveDir = studentDir + names[0] + names[1];
+                var userSaveDir = studentDir + userName + '/';
 
                 //If file is uploaded, render feedback page and clear timeout
                 if (fs.existsSync(fileLocation)) {
 
+                    //Make file executable
+                    fs.chmodSync(fileLocation, 777);
+
                     //Call file marker code and find out whether correct/incorrect
-                    fm.checkForMarker(file, function(status, passRate){
+                    fm.checkForMarker(file, userName, function(status, passRate, results){
 
                         //If file is valid
-                        if (status != "invalid"){
+                        if (status != 'Invalid upload file name'){
 
                             //Read file to display output
                             var fileContents = fs.readFileSync(fileLocation, function(err){
@@ -84,7 +106,7 @@ router.post('/', function(req, res, next) {
                             });
 
                             //Path to where filed is saved
-                            userSavePath = userSaveDir + '/' + fileName;
+                            userSavePath = userSaveDir + fileName;
 
                             //Check if user directory exists, create if not
                             if (!fs.existsSync(userSaveDir)){  
@@ -97,25 +119,32 @@ router.post('/', function(req, res, next) {
                                    throw err;
                                 }
                             });
-
-                            fs.unlinkSync(fileLocation);
-                        }
-                        
-                        if (status == 'correct') {
-                            res.render('feedback', { title: 'Upload Feedback', file: fileName, status: 'Correct', passRate:passRate, contents: fileContents});
                         }
 
-                        else if (status == 'incorrect') {
-                            res.render('feedback', { title: 'Upload Feedback', file: fileName, status: 'Incorrect', passRate:passRate, contents: fileContents});
-                        }
+                        var fileCopiedRetry = setInterval(fileCopied, 1000);
 
-                        else {
-                            res.render('feedback', { title: 'Upload Feedback', file: fileName, status: 'Invalid upload file name'});
+                        //Wait until file has been copied
+                        function fileCopied(){
+
+                            //When file has been copied, delete from uploads
+                            if (fs.existsSync(userSavePath)){
+    
+                                fs.unlinkSync(fileLocation);
+
+                                //Set variables for rendering template
+                                req.app.locals.fileName = fileName;
+                                req.app.locals.status = status;
+                                req.app.locals.passRate = passRate;
+                                req.app.locals.fileContents = fileContents;
+                                req.app.locals.results = results;
+                                
+                                clearInterval(fileCopiedRetry);
+                                return res.status(200).end('File has been uploaded');
+                            };
                         }
+                    });
 
                     clearInterval(uploadTimeout);
-
-                    });
                 }
             }      
         }  

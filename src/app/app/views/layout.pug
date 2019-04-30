@@ -1,9 +1,22 @@
 doctype html
 html
   head
+
     title= title
-    link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='https://use.fontawesome.com/releases/v5.8.1/css/all.css')
+    link(rel='stylesheet', href='/stylesheets/dropzone.css')
+    link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Montserrat')
+    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.0/themes/prism.min.css')
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
+    script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js')
+
+    nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
+      a.navbar-brand(href='/') Docker Einstein
+        span(class="far fa-lightbulb")
+
   body
     div.container(id="outerDiv")
       div.row

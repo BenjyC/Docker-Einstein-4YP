@@ -1,39 +1,24 @@
 body {
-    padding: 50px;
-    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
     background: linear-gradient(
         rgba(189, 195, 199, 1), 
         rgba(238, 242, 243, 1));
+    margin:0;
 }
 
 html, body {
     min-height: 100%;
+    font-family: 'Montserrat', sans-serif;
 }
 
-a {
-  color: #00B7FF;
+h1 {
+    font-size: 50px;
 }
 
-.btn-file {
-	position: relative;
-	overflow: hidden;
+pre {
+    text-align: left;
 }
 
-.btn-file input[type=file] {
-	position: absolute;
-    top: 0;
-    right: 0;
-    min-width: 100%;
-    min-height: 100%;
-    font-size: 100px;
-    text-align: right;
-    filter: alpha(opacity=0);
-    opacity: 0;
-    outline: none;
-    background: white;
-    cursor: inherit;
-    display: block;
-}
+/* Main Content CSS */
 
 .vertical-center {
     min-height: 50%;
@@ -61,4 +46,58 @@ a {
     -webkit-box-shadow: 0px 10px 10px grey;
     box-shadow: 0px 10px 10px grey;
     min-width: 75%;
+    margin-top: 5%;
 }
+
+/* Upload Page CSS */
+
+#dz-upload {
+    background: linear-gradient(#777777, #9b9b9b);
+    font-size: 20px;
+}
+
+.fa-file-upload {
+    padding-left: 20px;
+}
+
+/* Feedback Page CSS */
+
+#outputDiv > :nth-child(even) {
+    width:100%;
+    background-color: #b5b5b5;
+    border-radius: 10px;
+}
+
+#outputDiv > :nth-child(odd) {
+    width:100%;
+    background-color: #cccccc;
+    border-radius: 10px;
+}
+
+#tests {
+    padding-top: 5px;
+}
+
+#redirectButton {
+    margin-top: 20px;
+}
+
+.fa-user-check {
+    font-size: 50px;
+}
+
+/* Navbar CSS */
+
+.navbar {
+    background: linear-gradient(#6f6f6f, #171717);
+    height: 50px;
+}
+
+.navbar a {
+    font-size: 25px;
+}
+
+.fa-lightbulb {
+    padding-left: 5px;
+}
+

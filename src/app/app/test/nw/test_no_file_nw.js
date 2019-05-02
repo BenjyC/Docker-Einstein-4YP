@@ -7,7 +7,7 @@ module.exports = {
       browser
         .url("http://localhost:3000")
         .waitForElementVisible('body', 1000)
-        .waitForElementVisible('input[type=file]', 1000)
+        .waitForElementVisible('form[id=dz-upload]', 1000)
         .pause(1000)
         .click('input[type=submit]')
         .pause(1000)

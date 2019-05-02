@@ -13,7 +13,7 @@ describe('Status and Content', function() {
 
 		it('checks content', function(done) {
 			request('http://localhost:3000' , function(error, res, body) {
-        		expect(body).to.contain("Docker Einstein Upload Page");
+        		expect(body).to.contain("Upload Page");
         		done();
         	});
 		});
@@ -30,7 +30,7 @@ describe('Status and Content', function() {
 
 		it('checks redirect to /', function(done){
 			request('http://localhost:3000/feedback', function(err, res ,body){
-				expect(body).to.contain('Docker Einstein Upload Page');
+				expect(body).to.contain('Upload Page');
 				done();
 			});
 		});

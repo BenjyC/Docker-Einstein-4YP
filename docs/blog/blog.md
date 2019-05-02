@@ -228,65 +228,29 @@ The system is largely functional at this stage of the development lifecycle. Nex
 - Further testing
 - Finishing all deliverables
 
+## Blog Entry 017 - 02/05/2019
+
+Made small styling adjustments to the application, and fixed the test cases that had been previously written on branch 'wip/testing'. This branch will soon be
+merged into master so tests can be run at any time. As the system is quite lightweight and simplistic, not many test cases need to be implemented to cover all
+areas. 
+
+I also fixed some minor bugs and refactored the feedback.js routes code. 
+
+There is now a "Logged in as: " area on the navbar that only appears after a user has authenticated and will display their email address.
+
+Nightwatch browser testing with Selenium:
+
+![Nightwatch1](https://gitlab.computing.dcu.ie/colemab5/2019-ca400-colemab5/raw/master/docs/blog/images/Nightwatch1.png)
+
+Unit tests:
+
+![UnitTest2](https://gitlab.computing.dcu.ie/colemab5/2019-ca400-colemab5/raw/master/docs/blog/images/UnitTest2.png)
+
+Current system UI:
+
+![UI](https://gitlab.computing.dcu.ie/colemab5/2019-ca400-colemab5/raw/master/docs/blog/images/UI.png)
+
 
 ---
 
-This week, I learned how to include
-[images](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet#images)
-in my blog.
 
-![cat](https://gitlab.computing.dcu.ie/sblott/2018-ca400-XXXX/raw/master/docs/blog/images/cat.jpg)
-
-Here are the instructions:
-
-- Add the image to your repo (probably using the `images` sub-directory here).
-  The cat example above is in `./images/cat.jpg`.
-
-- Commit that and push it to your repo.
-
-- On Gitlab, navigate to your new image and click *Raw*.  You get the raw URL of your image.  Copy that URL.
-
-- Add your image to this document using the following format:
-
-    <pre>![alternative text](URL)</pre>
-
-See the example [here](https://gitlab.computing.dcu.ie/sblott/2018-ca400-XXXX/raw/master/docs/blog/blog.md).
-
-You can also mention other users (like me: @sblott).
-
-## Including Code
-
-Raw text:
-```
-Mary had a little lamb,
-it's fleece was white as snow.
-```
-
-Syntax highlighting is also possible; for example...
-
-Python:
-```python
-i = 0
-while i < len(s):
-   # So something.
-   i = i + 1
-```
-
-Java:
-```java
-for (i=0; i<s.length(); i+=1) {
-   // Do something.
-}
-```
-
-Coffeescript:
-```coffeescript
-i = 0
-while i < s.length
-   # So something.
-   i = i + 1
-```
-
-## Instructions
-
-Once you've understood this sample, replace it with your own blog.

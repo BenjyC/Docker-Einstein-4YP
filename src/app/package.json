@@ -4,12 +4,19 @@
   "description": "Einstein application",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "find app/test/unit -name '*.js' | xargs mocha -R spec"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^4.16.4"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chromedriver": "^2.46.0",
+    "geckodriver": "^1.16.2",
+    "mocha": "^5.2.0",
+    "nightwatch": "^1.0.19",
+    "selenium-server": "^3.141.59"
+  }
 }

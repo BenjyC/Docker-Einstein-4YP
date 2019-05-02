@@ -2,8 +2,10 @@
 src/app/node_modules
 src/app/app/node_modules
 src/app/app/uploads/*
+src/app/app/test/reports/*
 src/app/app/config/keys.js
 src/app/app/studentdata/*
+src/app/app/test/reports/*
 
 # Ignore java .class files.
 *.class

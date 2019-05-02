@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites errors="1"
+            failures="0"
+            tests="0">
+
+  <testsuite name="test_browser_nw"
+    errors="1" failures="0" hostname="" id="" package="test_browser_nw" skipped="1"
+    tests="0" time="0.000" timestamp="">
+  
+
+  
+
+  
+    
+    <testcase
+      name="Test upload page" classname="test_browser_nw">
+      <skipped />
+    </testcase>
+    
+  
+  </testsuite>
+</testsuites>

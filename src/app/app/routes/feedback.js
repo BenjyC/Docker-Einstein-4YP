@@ -95,6 +95,13 @@ router.post('/', function(req, res, next) {
                     //Call file marker code and find out whether correct/incorrect
                     fm.checkForMarker(file, userName, function(status, passRate, results){
 
+                        //Set variables for rendering template
+                        req.app.locals.fileName = fileName;
+                        req.app.locals.status = status;
+                        req.app.locals.passRate = passRate;
+                        req.app.locals.fileContents = fileContents;
+                        req.app.locals.results = results;
+
                         //If file is valid
                         if (status != 'Invalid upload file name'){
 
@@ -119,29 +126,31 @@ router.post('/', function(req, res, next) {
                                    throw err;
                                 }
                             });
+
+                            var fileCopiedRetry = setInterval(fileCopied, 1000);
+
+                            //Wait until file has been copied
+                            function fileCopied(){
+
+                                //When file has been copied, delete from uploads
+                                if (fs.existsSync(userSavePath)){
+        
+                                    fs.unlinkSync(fileLocation);
+                                    
+                                    clearInterval(fileCopiedRetry);
+                                    return res.status(200).end('File has been uploaded');
+                                };
+                            }
                         }
 
-                        var fileCopiedRetry = setInterval(fileCopied, 1000);
+                        //Remove invalid file
+                        else {
+                            fs.unlinkSync(fileLocation);
 
-                        //Wait until file has been copied
-                        function fileCopied(){
-
-                            //When file has been copied, delete from uploads
-                            if (fs.existsSync(userSavePath)){
-    
-                                fs.unlinkSync(fileLocation);
-
-                                //Set variables for rendering template
-                                req.app.locals.fileName = fileName;
-                                req.app.locals.status = status;
-                                req.app.locals.passRate = passRate;
-                                req.app.locals.fileContents = fileContents;
-                                req.app.locals.results = results;
-                                
-                                clearInterval(fileCopiedRetry);
-                                return res.status(200).end('File has been uploaded');
-                            };
+                            return res.status(200).end('File has been uploaded');
                         }
+
+                        
                     });
 
                     clearInterval(uploadTimeout);

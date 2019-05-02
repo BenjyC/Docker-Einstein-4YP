@@ -4,6 +4,8 @@ block content
   h1= title
   br
 
+  p#upload Your upload file is: #{file}
+
   if status == "Correct"
     p(style="color:green;font-size:20px;") Upload status: #{status}
 
@@ -60,4 +62,3 @@ block content
     }
 
     src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.0/prism.min.js"
-

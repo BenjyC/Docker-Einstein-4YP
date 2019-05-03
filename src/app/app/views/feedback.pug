@@ -4,8 +4,6 @@ block content
   h1= title
   br
 
-  p#upload Your upload file is: #{file}
-
   if status == "Correct"
     p(style="color:green;font-size:20px;") Upload status: #{status}
 
@@ -60,5 +58,12 @@ block content
     function changeColour() {
       document.getElementById('outputDiv').style.backgroundColor = "red";
     }
+
+    document.body.addEventListener("keyup", function(even){
+      if(event.keyCode === 13){
+        event.preventDefault();
+        document.getElementById("redirectButton").click();
+      }
+    });
 
     src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.0/prism.min.js"

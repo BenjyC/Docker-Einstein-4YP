@@ -5,8 +5,8 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  if(res.app.locals.emailAddr){
-  	res.render('index', { title: 'Upload Page', user: res.app.locals.emailAddr });
+  if(req.app.locals.emailAddr){
+  	res.render('index', { title: 'Upload Page', user: req.app.locals.emailAddr });
   }
   else {
   	res.redirect('/auth/login');

@@ -99,7 +99,6 @@ router.post('/', function(req, res, next) {
                         req.app.locals.fileName = fileName;
                         req.app.locals.status = status;
                         req.app.locals.passRate = passRate;
-                        req.app.locals.fileContents = fileContents;
                         req.app.locals.results = results;
 
                         //If file is valid
@@ -111,6 +110,8 @@ router.post('/', function(req, res, next) {
                                     throw err;
                                 };
                             });
+
+                            req.app.locals.fileContents = fileContents;
 
                             //Path to where filed is saved
                             userSavePath = userSaveDir + fileName;
@@ -146,6 +147,7 @@ router.post('/', function(req, res, next) {
                         //Remove invalid file
                         else {
                             fs.unlinkSync(fileLocation);
+                            req.app.locals.fileContents = null;
 
                             return res.status(200).end('File has been uploaded');
                         }

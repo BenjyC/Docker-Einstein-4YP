@@ -10,7 +10,8 @@ router.get('/login', (req,res,next) => {
 
 //Authentication logout
 router.get('/logout', (req,res,next) => {
-	res.send('logging out');
+	req.app.locals.emailAddr = "";
+	res.redirect('/');
 });
 
 //Authentication with Google

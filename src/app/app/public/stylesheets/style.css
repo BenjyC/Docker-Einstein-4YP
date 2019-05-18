@@ -97,7 +97,14 @@ pre {
     font-size: 25px;
 }
 
-.fa-lightbulb {
+.fa-lightbulb, .fa-sign-out-alt {
     padding-left: 5px;
 }
+
+.btn-dark {
+    margin:2px;
+    padding:2px;
+}
+
+
 

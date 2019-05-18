@@ -18,7 +18,10 @@ html
       a.navbar-brand(href='/') Docker Einstein
         span(class="far fa-lightbulb")
         if emailAddr
-          a.nav-item.ml-auto(style="color:white;font-size:20px") Logged in as: #{emailAddr}
+          a.nav-item.ml-auto(style="color:white;font-size:20px;padding-right:10px;") Logged in as: #{emailAddr}
+          a.nav-item.nav-link(class="btn btn-dark" href="/auth/logout" style="color:black;background:white;font-size:20px") Logout
+            span(class="fas fa-sign-out-alt")
+              
 
   body
     div.container(id="outerDiv")

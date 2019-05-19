@@ -12,7 +12,7 @@ module.exports = {
         .execute("document.querySelectorAll('input[type=file]')[0].style.display = 'block';")
         .setValue('input[type=file]', path.resolve(__dirname + '/testfile.txt'))
         .pause(3000)
-        .assert.containsText('#upload', 'Your upload file is: testfile.txt')
+        .assert.containsText('body', 'Your upload file is: testfile.txt')
         .click('.btn')
         .waitForElementVisible('body', 1000)
         .assert.containsText('body', 'Upload Page')

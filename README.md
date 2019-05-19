@@ -1,15 +1,18 @@
-# Dockerised Einstein
+# Docker Einstein
 
-The aim of this project is to rebuild the Einstein automated script correction
-utility with Docker technology.
+Einstein is the script correction system used inside DCU that takes uploaded programming
+scripts and executes them against predefined test case to judge correctness.
+
+The aim of this project is to rebuild the Einstein utility with Docker technology.
 
 The project will set up a new Einstein system built with Docker
-with a revised version of the original automated marker script.
+with a new extensible version of the marker script.
 
-The system will use a dockerfile to create a generic image that can be fed credentials
+The system will use a Dockerfile to create a generic image that can be fed credentials
 for any server.
 
-Docker Image of the system should be deployable within or outside DCU as a containerised application.
+Docker Image of the system should be deployable within or outside DCU as a containerised application, 
+with no external dependencies or installations required. 
 
 ---
 
@@ -23,21 +26,43 @@ Docker Image of the system should be deployable within or outside DCU as a conta
 
 - Design 
    - Create a new more intuitive UI for use in DCU and externally.
-   - System should be simple to navigate for all students.
+   - System should be simple/accessible for all students.
+ 
+- Secure
+   - System will utilise smart authentication using only student emails rather than any
+sensitive information.
 
 ---
 
 ### Features
 
 - Docker environment
-  - Revised marker script will run inside docker container alongside the web application.
-  - Docker images will take the configuration files (Apache/DNS/etc) currently used to configure the DNS server.
-  - Will be able to swap out configuration files to describe another server (different university) and create a new docker image accordingly. 
+  - New marker script will run inside Docker container alongside the web application.
+  - Docker images will be configurable with any server credentials.
+  - Changing server configuration (different university) will not affect application functionality and will 
+create a new docker image accordingly. 
 - New frontend UI
   - New HTML/CSS/JavaScript frontend integrated with the application.
-  - Student/Admin logins to display relevant info specific to user (as seen in current system).
-- Database records
-  - Student exam/assignment submissions recorded.
-  - Lecturer test data
+  - Student logins to display relevant info and store uploads specific to a user.
+  - High contrast/minimalist design for accessibility and simple user interactions.
+- File system storage
+  - Student upload submissions saved in student data directory.
+  - Unique subdirectory per student built from email. 
+
+---
+
+### Installation
+
+Install Docker Compose as per Operating System
+
+https://docs.docker.com/compose/install/
+
+Change directory into src/app/ where the Dockerfile is located.
+
+To build the image:  
+`docker-compose build`
+
+To run the container:  
+`docker-compose run`
 
 

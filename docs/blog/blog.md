@@ -251,7 +251,7 @@ Current system UI:
 ![UI](https://gitlab.computing.dcu.ie/colemab5/2019-ca400-colemab5/raw/master/docs/blog/images/UI.png)
 
 
-### Blog Entry 018 - 19/05/2019
+## Blog Entry 018 - 19/05/2019
 
 Added logout button to the navbar to allow users to disconnect from the application and return to the
 authentication screen. 
